@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Civicall Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/post.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.15.4/css/ionicons.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.15.4/css/ionicons.min.css" />
+
+    <style>
+      .dashboard {
+        color: #a90011;
+        position: absolute;
+        left: 80px;
+        top: 10px;
+      }
+
+      .adminPro {
+        color: #a90011;
+        position: absolute;
+        right: 90px;
+      }
+
+      .notifIcon {
+        position: absolute;
+        right: 204px;
+        font-size: 20px;
+        color: #6c757d;
+      }
+
+      .topbar {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Add a shadow here */
+      }
+
+      .search {
+        position: relative;
+        top: 10px;
+      }
+
+      .user-profile {
+        position: relative;
+        bottom: 3px;
+      }
+
+      /* this is for upcoming */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      th,
+      td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      thead {
+        background-color: #f2f2f2;
+      }
+
+      th {
+        background-color: #6c757d;
+        position: sticky;
+        color: #fff;
+        z-index: 2;
+        color: white;
+      }
+
+      /* for notification */
+      /* Style for the notification icon */
+      .notifIcon {
+        font-size: 24px;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .notifIcon:active {
+        transform: scale(1.4);
+      }
+
+      .notifIcon:hover {
+        color: black;
+      }
+
+      /* Style for the notification dropdown container */
+      #notificationDropdown {
+        display: none;
+        position: absolute;
+        background-color: white;
+        /* Changed background color to red */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        min-width: 300px;
+        width: 200px;
+        padding: 0px;
+        top: 30px;
+        /* Adjust the positioning as needed */
+        right: 65px;
+        top: 65px;
+        /* Adjust the positioning as needed */
+        z-index: 1;
+      }
+
+      /* Style for the notification heading */
+      #notificationDropdown .notification {
+        font-size: 18px;
+        color: #333;
+        /* Adjust the color as needed */
+        margin-bottom: 0px;
+      }
+
+      /* Style for individual notification items */
+      #notificationDropdown a {
+        display: block;
+        text-decoration: none;
+        color: #333;
+        /* Adjust the color as needed */
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+        /* Add a separator between items */
+      }
+
+      #notificationDropdown a:hover {
+        background-color: #f0f0f0;
+        /* Add a background color on hover */
+      }
+
+      /* Style for the icon circles */
+      #notificationDropdown .icon-circle {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        margin-right: 10px;
+      }
+
+      /* Style for the icon inside the circles */
+      #notificationDropdown i {
+        color: #fff;
+        /* Adjust the color as needed */
+      }
+
+      /* Style for the date and content of notifications */
+      #notificationDropdown .small {
+        font-size: 12px;
+        color: #888;
+        /* Adjust the color as needed */
+      }
+
+      /* Style for the "Show All Alerts" link */
+      #notificationDropdown .others {
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #333;
+        /* Changed the color to red */
+        text-decoration: none;
+        /* Removed underline */
+      }
+
+      #notificationDropdown .others:hover {
+        color: #555;
+        /* Adjust the color on hover as needed */
+      }
+
+      .notifBack {
+        background-color: #6c757d;
+
+        padding: 10px;
+      }
+
+      /* ============================ dropdown menu ============================== */
+
+      .avatar {
+        position: relative;
+        right: 25px;
+        top: 5px;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        object-fit: cover;
+        border: 1px solid #333;
+      }
+
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        /* Position the dropdown menu below the avatar and center it horizontally */
+        top: 120%;
+        left: -70px;
+        transform: translateX(-50%);
+        /* Set a minimum width to prevent wrapping */
+        min-width: 180px;
+        /* Align the text to the right */
+        text-align: left;
+        border-radius: 0px;
+        border: solid 1px #ccc;
+      }
+
+      .dropdown-menu,
+      .popup-form-my_account {
+        display: none;
+      }
+
+      /* Style the dropdown links */
+      .dropdown-item {
+        display: block;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        /* Set white-space to nowrap to prevent text wrapping */
+        white-space: nowrap;
+        border-radius: 0px;
+      }
+
+      /* Change the background color on hover */
+      .dropdown-item:hover {
+        background-color: #ddd;
+      }
+
+      /* for notification */
+      .badge {
+        position: absolute;
+        top: 10px;
+        right: 195px;
+        background-color: #28a745;
+        color: white;
+        border-radius: 50%;
+        padding: 5px;
+        font-size: 8px;
+        z-index: 1;
+      }
+
+      a {
+        transition: color 0.3s ease;
+      }
+
+      /* Apply the transition effect on hover */
+      a:hover {
+        color: #a90011;
+        /* Change the link color on hover */
+      }
+
+      /* Style for the transition effect */
+      .page-transition {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      /* Style for the page being loaded */
+      .page-loading {
+        opacity: 0;
+      }
+
+      .table-responsive {
+        margin: 0;
+      }
+      .table-wrapper {
+        min-width: 500px;
+        background: #fff;
+        padding: 20px 25px;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      }
+      .table-wrapper .btn {
+        float: right;
+        color: #333;
+        background-color: #fff;
+        border-radius: 3px;
+        border: none;
+        outline: none !important;
+        margin-left: 10px;
+      }
+      .btn.btn-success {
+        background-color: #28a745;
+        color: #fff;
+      }
+
+      .table-wrapper .btn:hover {
+        color: #fff;
+        background: #10c469;
+      }
+      .table-wrapper .btn.btn-primary {
+        color: #fff;
+        background: #03a9f4;
+      }
+      .table-wrapper .btn.btn-primary:hover {
+        background: #03a3e7;
+      }
+      .table-title .btn {
+        font-size: 13px;
+        border: none;
+      }
+      .table-title .btn i {
+        float: left;
+        font-size: 21px;
+        margin-right: 5px;
+      }
+      .table-title .btn span {
+        float: left;
+        margin-top: 2px;
+      }
+      .table-title {
+        color: #fff;
+        background: #343a40;
+        padding: 16px 25px;
+        margin: -20px -25px 10px;
+        border-radius: 3px 3px 0 0;
+      }
+      .table-title h2 {
+        margin: 5px 0 0;
+        font-size: 24px;
+      }
+
+      .table-filter .filter-group {
+        margin-left: 15px;
+      }
+      .table-filter input,
+      .table-filter select {
+        height: 40px;
+        border-radius: 3px;
+        border-color: #ddd;
+        box-shadow: none;
+        margin-right: 20px;
+      }
+
+      .table-filter .btn {
+        height: 34px;
+      }
+
+      .table-filter select,
+      .table-filter input {
+        display: inline-block;
+        margin-left: 5px;
+      }
+      .table-filter input {
+        width: 200px;
+        display: inline-block;
+      }
+      .filter-group select.form-control {
+        width: 200px;
+      }
+      .filter-icon {
+        float: right;
+        margin-top: 7px;
+      }
+      .filter-icon i {
+        font-size: 18px;
+        opacity: 0.7;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+      }
+
+      .filter-group select {
+        margin-left: 10px; /* Adjust as needed */
+      }
+
+      .filter-group label {
+        font-weight: normal;
+        margin-left: 5px; /* Adjust as needed */
+      }
+
+      #searchfilter {
+        position: relative;
+        left: 120px;
+      }
+      #searchfilterSec {
+        margin-top: 15px;
+      }
+      #inputSearch {
+        margin-left: 10px;
+      }
+      table.table tr th,
+      table.table tr td {
+        border-color: #e9e9e9;
+        padding: 12px 15px;
+        vertical-align: middle;
+      }
+      table.table tr th:first-child {
+        width: 60px;
+      }
+      table.table tr th:last-child {
+        width: 80px;
+      }
+      table.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #fcfcfc;
+      }
+      table.table-striped.table-hover tbody tr:hover {
+        background: #f5f5f5;
+      }
+      table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+      }
+      table.table td a {
+        font-weight: bold;
+        color: #566787;
+        display: inline-block;
+        text-decoration: none;
+      }
+      table.table td a:hover {
+        color: #2196f3;
+      }
+
+      table.table .eventpic {
+        margin: 0px;
+        width: 110px;
+        height: 70px;
+        padding: 0px;
+        border-radius: 3%;
+      }
+      table.table .profilepic {
+        width: 75px;
+        height: 75px;
+        border-radius: 100%;
+      }
+      .text-success {
+        color: #10c469;
+      }
+      .text-info {
+        color: #62c9e8;
+      }
+      .text-warning {
+        color: #ffc107;
+      }
+      .text-danger {
+        color: #dc3545;
+      }
+      /* Targeting the button inside the .col-sm-8 */
+      .col-sm-8 a.btn {
+        /* Your styles here */
+        display: inline-block;
+        background-color: #28a745;
+        color: #ffffff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        position: relative;
+        bottom: 35px;
+      }
+
+      .col-sm-8 a.btn:hover {
+        /* Styles when hovering over the button */
+        background-color: #1f7f3b;
+        color: white;
+      }
+
+      #btnfilter {
+        position: relative;
+        left: 100px;
+        top: 2px;
+      }
+      #btnfilterSec {
+        position: relative;
+        left: 2px;
+        top: 15px;
+      }
+      #eventfilter {
+        position: relative;
+        right: 30px;
+        bottom: 60px;
+        float: left;
+      }
+
+      #campusfilter {
+        position: relative;
+        right: 30px;
+        bottom: 60px;
+        float: left;
+      }
+      #campusfilterSec {
+        position: relative;
+        left: 10px;
+        margin-top: 15px;
+        float: left;
+      }
+      #attendedFilter {
+        position: relative;
+        margin-left: 10px;
+        margin-top: 15px;
+        float: left;
+      }
+      #searchfieldcontainer {
+        position: relative;
+        right: 24px;
+      }
+      #searchfieldcontainerSec {
+        position: relative;
+        right: 5px;
+      }
+      #tableevents {
+        position: relative;
+        bottom: 10px;
+      }
+
+      /* Style for the button */
+      .vieweventdet {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      /* Hover effect: Darker color and larger size */
+      .vieweventdet:hover {
+        background-color: #9c2e3b; /* Darker color */
+        transform: scale(1.1); /* Enlarge button */
+        cursor: pointer;
+      }
+
+      .table-container {
+        max-height: 400px;
+        width: 100%; /* Set the desired height for the scrollable area */
+        position: relative;
+        bottom: 60px;
+      }
+      .table-containerSec {
+        max-height: 400px;
+        margin-top: 11%;
+        width: 100%;
+        position: relative;
+        bottom: 60px;
+      }
+      /* Style the fixed table header */
+      .table-fix {
+        position: sticky;
+        top: -2px;
+        background-color: #fff; /* Adjust as needed */
+      }
+
+      /* Style the table cells */
+      #tableevents th,
+      #tableevents td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ccc; /* Add a border for separation */
+      }
+      .modalupcom {
+        display: none; /* Hide the modal by default */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      }
+
+      .modal-contentupcom {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        background-color: #fefefe;
+        margin: 15% auto; /* Center the modal vertically and horizontally */
+        padding: 20px;
+        border: 1px solid #888;
+        border-radius: 10px; /* Set border radius */
+        width: 50%;
+        height: 900px;
+        max-height: 90%; /* Set a maximum height for the modal content */
+        max-width: 900px; /* Set a maximum width for the modal */
+        transform: translate(-50%, -50%);
+        animation: modalFadeIn 0.5s ease-in-out forwards; /* Animation for fade-in */
+        overflow-y: auto; /* Enable vertical scrolling */
+      }
+
+      /* Customize the scrollbar */
+      .modal-contentupcom::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+      }
+
+      .modal-contentupcom::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Track color */
+        border-radius: 10px;
+      }
+
+      .modal-contentupcom::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 10px; /* Rounded corners for the thumb */
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      #closemodalbtnupcom {
+        background-color: #6c757d;
+        color: #ffffff;
+      }
+
+      #closemodalbtnupcom:hover {
+        background-color: #565e64;
+      }
+
+      /* inside the modal content in upcomming */
+      .modal-contentupcom h2 {
+        /* Your existing styles */
+        text-align: center; /* Center align text inside the container */
+        margin-bottom: 20px;
+        text-decoration: underline;
+      }
+
+      #upcompostpic {
+        height: 250px;
+        width: 500px;
+        border: solid 2px black;
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto;
+        object-fit: cover; /* Ensures the image covers the specified dimensions */
+        object-position: center; /* Centers the image within the container */
+      }
+
+      .eventpic {
+        border: black 2px solid;
+        cursor: default;
+      }
+      .profilepic {
+        border: #6c757d 1px solid;
+        cursor: default;
+      }
+      #iconto {
+        position: inherit;
+        top: 5px;
+      }
+      #titleto {
+        position: inherit;
+        top: 5px;
+        font-size: 20px;
+      }
+
+      #btnparaview {
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+      }
+
+      #btnparaview:hover {
+        background-color: #9c232f; /* Darker color for hover */
+        transform: scale(1.1); /* Enlarge the button on hover */
+      }
+
+      /* Styling for the modal not functioning */
+      .modalevnts {
+        display: none; /* Hide the modal by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+      }
+
+      .modal-contentevnts {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 70%;
+        max-width: 600px;
+        border-radius: 5px;
+      }
+
+      .modal-headerevnts,
+      .modal-bodyevnts,
+      .modal-footerevnts {
+        padding: 10px 0;
+      }
+
+      .modal-headerevnts {
+        border-bottom: 1px solid #ccc;
+      }
+
+      .modal-footerevnts {
+        border-top: 1px solid #ccc;
+        text-align: right;
+      }
+
+      #closeModalevnts {
+        background-color: #6c757d; /* Light color */
+        color: #fff; /* Text color */
+        /* Add any other necessary styling */
+      }
+
+      /* Darker hover effect */
+      #closeModalevnts:hover {
+        background-color: #495057; /* Darker color on hover */
+      }
+
+      #evntimgpicnew {
+        width: 555px;
+        border-radius: 5%;
+        border: black solid 2px;
+      }
+
+      #modalAttendee {
+        position: relative;
+        bottom: 10px;
+        margin-bottom: -40px;
+        font-size: 45px;
+        transition: transform 0.3s ease-in-out;
+        color: #495057;
+        cursor: pointer;
+      }
+
+      #modalAttendee:hover {
+        transform: scale(1.2);
+      }
+
+      .modal-headerevnts {
+        padding-top: 0%;
+        margin-top: 0%;
+        height: 35px;
+      }
+
+      .modal-contentevnts {
+        position: relative;
+        bottom: 150px;
+      }
+
+      #editmov {
+        position: relative;
+        bottom: 55px;
+      }
+
+      /* modal for att */
+      /* Styling for your specific modal IDs */
+      #myModalatt {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+      }
+
+      #myModalatt .modal-dialogatt {
+        position: relative;
+        width: auto;
+        max-width: 600px;
+        margin: 10% auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+      }
+
+      #myModalatt .modal-headeratt {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+      }
+
+      #myModalatt .modal-titleatt {
+        margin: 0;
+      }
+
+      #myModalatt .modal-bodyatt {
+        padding: 20px 0;
+      }
+
+      #myModalatt .modal-footeratt {
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+        text-align: right;
+      }
+
+      #myModalatt .closeatt {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+      .closeat {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: relative;
+        bottom: 10px;
+      }
+
+      .closeat:hover,
+      .closeat:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #myModalatt .btnatt {
+        padding: 8px 20px;
+        border-radius: 4px;
+        border: none;
+        color: #fff;
+        background-color: #dc3545;
+        cursor: pointer;
+      }
+
+      #myModalatt .btnatt:hover {
+        background-color: #c82333;
+      }
+
+      .modalpo {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        overflow: auto; /* Ito ang binago: ginamit na 'overflow: auto' dito */
+      }
+
+      .modal-contentpo {
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        text-align: center;
+        width: 50%;
+        max-height: 100%;
+        overflow-y: auto;
+      }
+
+      .closepo {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .closepo:hover,
+      .closepo:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .closepo {
+        display: block;
+      }
+      .modal-contentpo #lblpt,
+      .modal-contentpo #hederrr {
+        display: block;
+      }
+
+      #campusTarget {
+        background-color: #fff; /* Dark background color */
+        color: black; /* Text color */
+        border: 1px solid #ccc; /* Dark border */
+        padding: 8px 16px; /* Adjust padding as needed */
+        cursor: pointer; /* Change cursor on hover */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+      }
+
+      #campusTarget:hover {
+        background-color: #aaa; /* Darker background color on hover */
+        border-color: #aaa; /* Darker border color on hover */
+        color: #fff; /* Text color on hover */
+      }
+      #campusField {
+        background-color: #fff; /* Dark background color */
+        color: black; /* Text color */
+        border: 1px solid #ccc; /* Dark border */
+        padding: 8px 16px; /* Adjust padding as needed */
+        cursor: pointer; /* Change cursor on hover */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+      }
+
+      #campusField:hover {
+        background-color: #aaa; /* Darker background color on hover */
+        border-color: #aaa; /* Darker border color on hover */
+        color: #fff; /* Text color on hover */
+      }
+      #myModalnm {
+        z-index: 999999999;
+      }
+
+      .modal-contentnm {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 40%;
+        z-index: 3;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .closenm {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .closenm:hover,
+      .closenm:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .checkboxna {
+        position: relative;
+        top: 10px;
+        right: 290px;
+      }
+
+      .labelnato {
+        position: relative;
+        left: 50px;
+        margin: -20px;
+      }
+
+      #okButton {
+        margin-left: 85%;
+      }
+
+      #okButton {
+        background-color: black;
+        /* Other button styles */
+      }
+
+      #okButton:hover {
+        background-color: darkgray; /* Change background color on hover */
+        /* Additional styles for hover state */
+      }
+
+      /* Select All button */
+      #selectAllBtnn {
+        background-color: darkgray;
+        /* Other button styles */
+      }
+
+      #selectAllBtnn:hover {
+        background-color: lightgray; /* Change background color on hover */
+        /* Additional styles for hover state */
+      }
+
+      /* Deselect All button */
+      #deselectAllBtnn {
+        background-color: gray;
+        /* Other button styles */
+      }
+
+      #deselectAllBtnn:hover {
+        background-color: silver; /* Change background color on hover */
+        /* Additional styles for hover state */
+      }
+      #introductionField,
+      #objectiveField,
+      #instructionField {
+        line-height: 1.8; /* You can adjust this value to increase or decrease the vertical spacing */
+      }
+      .btn.btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+      }
+
+      .btn.btn-danger:hover {
+        background: #bd2130; /* Change this color to your desired hover color */
+      }
+      #categoryField:disabled {
+        opacity: 10;
+        color: black;
+      }
+      .modalat {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-contentat {
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .modal-headerat h2 {
+        margin: 0;
+      }
+      #myModalat {
+        z-index: 1001; /* Use a value higher than the z-index of eventModalupcom */
+      }
+      #logoutForm {
+        height: 22%;
+      }
+      .center-text {
+        text-align: center;
+        font-size: 18px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- =============================================== Navigation ================================================ -->
+    <div class="container1">
+      <div class="navigation">
+        <ul>
+          <li>
+            <a href="#">
+              <span class="icon" id="iconto">
+                <img
+                  src="login/images/icons/civicon.png"
+                  alt=""
+                  width="60px"
+                  height="60px" />
+              </span>
+              <span class="title" style="font-weight: 1000" id="titleto"
+                >CIVICALL</span
+              >
+            </a>
+          </li>
+
+          <li>
+            <a href="subdashboard.html">
+              <span class="icon">
+                <ion-icon name="grid-outline"></ion-icon>
+              </span>
+              <span class="title">Dashboard</span>
+            </a>
+          </li>
+
+          <li>
+            <a
+              href="feedBack.html"
+              id="openMessagesModal"
+              class="page-transition">
+              <span class="icon">
+                <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+              </span>
+              <span class="title">FeedBack</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="forum.html" id="openMessagesModal" class="page-transition">
+              <span class="icon">
+                <ion-icon name="chatbubbles-outline"></ion-icon>
+              </span>
+              <span class="title">Forum</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="eventReport.html" class="page-transition">
+              <span class="icon">
+                <ion-icon name="document-text-outline"></ion-icon>
+              </span>
+              <span class="title">Reports </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- =============================================== Upper Fields ================================================ -->
+      <div class="main">
+        <div class="topbar">
+          <div class="toggle">
+            <ion-icon name="menu-outline" class="hover-icon"></ion-icon>
+          </div>
+          <h1 class="dashboard">Dashboard</h1>
+
+          <!-- =============================================== Dropdown fields ================================================ -->
+          <!-- <span class="badge">3+</span> -->
+          <ion-icon
+            name="notifications"
+            class="notifIcon"
+            style="display: none"
+            id="notificationIcon"></ion-icon>
+
+          <h5 class="adminPro">
+            Sub-Admin:
+            <span id="subName" class="additional-text">Loading.........</span>
+          </h5>
+          <div class="user-profile pull-right">
+            <img
+              class="avatar user-thumb hover-effect"
+              src="../img/profile.png"
+              width="50px"
+              id="profileImage"
+              onclick="toggleDropdown()" />
+
+            <div class="dropdown-menu" id="dropdownMenu">
+              <a class="dropdown-item" href="my_account.html">
+                <ion-icon
+                  name="person-circle-outline"
+                  style="color: #888"></ion-icon>
+                &nbsp; My Account
+              </a>
+
+              <a class="dropdown-item" href="changePass.html">
+                <ion-icon name="lock-closed" style="color: #888"></ion-icon>
+                &nbsp; Change Password
+              </a>
+
+              <!--    <a class="dropdown-item" href="trashBin.html">
+              <ion-icon name="trash-bin" style="color:#888"></ion-icon> &nbsp; Trash Bin
+            </a> -->
+
+              <hr />
+              <a class="dropdown-item" href="#" onclick="showLogoutPopup()">
+                <ion-icon name="log-out-outline" style="color: #888"></ion-icon>
+                &nbsp; Log-Out
+              </a>
+            </div>
+          </div>
+
+          <!-- Popup Form -->
+          <div class="popup-form" id="popupForm">
+            <h2 id="popupTitle"></h2>
+            <button onclick="closePopup()">Close</button>
+          </div>
+
+          <!-- Popup Form for Log Out -->
+          <div id="logoutForm">
+            <h2 id="logoutTitle">Log-Out</h2>
+            <p>Are you sure you want to log out?</p>
+            <button id="logOut">Log Out</button>
+            <button onclick="closeLogoutPopup()">Cancel</button>
+          </div>
+        </div>
+
+        <!-- =============================================== Cards ================================================ -->
+        <div class="cardBox">
+          <a href="completedAct.html" class="no-underline">
+            <div class="card">
+              <div>
+                <div class="numbers" id="finishNum">Loading...</div>
+                <div class="cardName">Completed<br />Activities</div>
+              </div>
+              <div class="iconBx">
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+              </div>
+            </div>
+          </a>
+          <a href="approveAct.html" class="no-underline">
+            <div class="card">
+              <div>
+                <div class="numbers" id="approveNum">Loading...</div>
+                <div class="cardName">Approved<br />Activities</div>
+              </div>
+
+              <div class="iconBx">
+                <ion-icon name="receipt-outline"></ion-icon>
+              </div>
+            </div>
+          </a>
+          <a href="validateRequest.html" class="no-underline">
+            <div class="card">
+              <div>
+                <div class="numbers" id="totalRequest">Loading...</div>
+                <div class="cardName">Validate<br />Request</div>
+              </div>
+
+              <div class="iconBx">
+                <ion-icon name="git-pull-request-outline"></ion-icon>
+              </div>
+            </div>
+          </a>
+          <a href="totalStudents.html" class="no-underline">
+            <div class="card">
+              <div>
+                <div class="numbers" id="totalNum">Loading...</div>
+                <div class="cardName">Total<br />Users</div>
+              </div>
+              <div class="iconBx">
+                <ion-icon name="accessibility-outline"></ion-icon>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- =============================================== upcoming Events ================================================ -->
+        <div class="upcoming">
+          <div class="upcomingEvents">
+            <div class="container-xl">
+              <div class="table-responsive">
+                <div class="table-wrapper" style="height: 520px">
+                  <div class="table-title">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <h2>Upcoming and Ongoing Events</h2>
+                      </div>
+                      <div class="col-sm-8">
+                        <a href="#" class="btn" id="openPostModal">Post</a>
+                        <div class="modalpo" id="postModalpo">
+                          <div class="modal-contentpo">
+                            <span class="closepo" id="closeModalpo">
+                              <ion-icon name="close"></ion-icon>
+                            </span>
+
+                            <h2 id="hederrr" style="color: #dc3545">
+                              Post an event
+                            </h2>
+                            <form>
+                              <input
+                                type="image"
+                                id="imagepost"
+                                name="image"
+                                alt="Upload Image"
+                                width="400"
+                                style="object-fit: cover"
+                                height="400"
+                                hidden />
+
+                              <label
+                                for="image"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Upload Image:</label
+                              >
+                              <input
+                                type="file"
+                                id="filePost"
+                                name="image"
+                                accept="image/*"
+                                required />
+
+                              <label
+                                for="category"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Category:</label
+                              >
+                              <select id="category" name="category" required>
+                                <option value="" disabled selected>
+                                  Choose a Category
+                                </option>
+                                <option value="Tree Planting">
+                                  Tree Planting
+                                </option>
+                                <option value="Fund Raising" id="fund">
+                                  Fund Raising
+                                </option>
+                                <option value="Donation" id="donation">
+                                  Donation
+                                </option>
+                                <option value="Clean Up Drive">
+                                  Clean Up Drive
+                                </option>
+                                <option value="Feeding Program">
+                                  Feeding Program
+                                </option>
+                                <option value="Relief Operation">
+                                  Relief Operation
+                                </option>
+                                <option value="Seminar Training">
+                                  Seminar Training
+                                </option>
+                                <option value="Teaching Literacy">
+                                  Teaching Literacy
+                                </option>
+                              </select>
+                              <label
+                                for="title"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Title:</label
+                              >
+                              <input
+                                type="text"
+                                id="titlepost"
+                                name="title"
+                                required
+                                placeholder="Event title" />
+
+                              <label
+                                for="Introduction"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Introduction:</label
+                              >
+                              <textarea
+                                id="introductionPost"
+                                name="Introduction"
+                                rows="6"
+                                required
+                                placeholder="Add text"></textarea>
+                              <label
+                                for="Objective"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Objective:</label
+                              >
+                              <textarea
+                                id="objectivePost"
+                                name="Objective"
+                                rows="6"
+                                required
+                                placeholder="Add text"></textarea>
+                              <label
+                                for="Instruction"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Instruction:</label
+                              >
+                              <textarea
+                                id="instructionPost"
+                                name="Instruction"
+                                rows="6"
+                                required
+                                placeholder="Add text"></textarea>
+                              <label
+                                for="Location"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Location:</label
+                              >
+                              <input
+                                type="text"
+                                id="Locationpost"
+                                name="Location"
+                                required
+                                placeholder="Address" />
+                              <div class="form-row">
+                                <div class="form-group">
+                                  <label
+                                    for="startdate"
+                                    id="lblpt"
+                                    style="color: black; text-align: left"
+                                    >Start Date & Time:</label
+                                  >
+                                  <input
+                                    type="datetime-local"
+                                    id="startdate"
+                                    name="startdate"
+                                    required />
+                                </div>
+                                <div class="form-group">
+                                  <label
+                                    for="enddate"
+                                    id="lblpt"
+                                    style="color: black; text-align: left"
+                                    >End Date & Time:</label
+                                  >
+                                  <input
+                                    type="datetime-local"
+                                    id="enddate"
+                                    name="enddate"
+                                    required />
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label
+                                  for="campusTarget"
+                                  id="lblpt"
+                                  style="color: black; text-align: left"
+                                  >Target Campus:</label
+                                >
+                                <input
+                                  type="text"
+                                  id="campusTarget"
+                                  name="campusTarget"
+                                  required
+                                  readonly
+                                  placeholder="Enter Campus" />
+                                <label
+                                  for="targparty"
+                                  id="lblpt"
+                                  style="color: black; text-align: left"
+                                  >Target Participant:</label
+                                >
+                              </div>
+
+                              <input
+                                type="text"
+                                id="targparty"
+                                name="targparty"
+                                required
+                                placeholder="Please enter only numbers"
+                                pattern="[0-9]+"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+
+                              <label
+                                for="actpts"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Active Points:</label
+                              >
+
+                              <input
+                                type="text"
+                                id="actpts"
+                                name="actpts"
+                                required
+                                placeholder="Please enter only numbers"
+                                pattern="[0-9]+"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+
+                              <label
+                                for="facname"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Facilitator's Name:</label
+                              >
+                              <input
+                                type="text"
+                                id="facname"
+                                name="facname"
+                                required
+                                placeholder="Insert name" />
+                              <!-- Google Maps Location Field -->
+                              <label
+                                for="facnamecon"
+                                id="lblpt"
+                                style="color: black; text-align: left"
+                                >Facilitator's Email or Contact:</label
+                              >
+                              <input
+                                type="text"
+                                id="facnamecon"
+                                name="facnamecon"
+                                required
+                                placeholder="Insert Contact" />
+
+                              <label
+                                for="paymentMethod"
+                                id="paymentLabel"
+                                style="
+                                  color: black;
+                                  text-align: left;
+                                  display: none;
+                                "
+                                >Payment Method:</label
+                              >
+                              <select
+                                id="paymentMethod"
+                                name="paymentMethod"
+                                style="display: none">
+                                <option value="Select" disabled selected>
+                                  Select:
+                                </option>
+                                <option value="GCash">GCash</option>
+                                <option value="PayMaya">PayMaya</option>
+                                <option value="PayPal">PayPal</option>
+                              </select>
+
+                              <label
+                                for="recipient"
+                                id="recipientLabel"
+                                style="
+                                  color: black;
+                                  text-align: left;
+                                  display: none;
+                                "
+                                >Payment Recipient:</label
+                              >
+                              <input
+                                type="text"
+                                id="recipient"
+                                name="recipient"
+                                required
+                                placeholder="Provide the Recipient Number"
+                                style="display: none" />
+
+                              <button
+                                id="postBtn"
+                                type="button"
+                                style="margin-left: 70%">
+                                Post
+                              </button>
+                              <button type="button" id="cancelButton">
+                                Cancel
+                              </button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-filter">
+                    <div class="row">
+                      <div class="col-sm-9">
+                        <div id="searchfieldcontainer">
+                          <button
+                            type="button"
+                            id="btnfilter"
+                            class="btn btn-primary">
+                            <i class="fa fa-search"></i>
+                          </button>
+
+                          <div class="filter-group" id="searchfilter">
+                            <label>Search</label>
+                            <input
+                              id="searchInput"
+                              type="text"
+                              class="form-control" />
+                          </div>
+                        </div>
+
+                        <div class="filter-group" id="eventfilter">
+                          <label>Category</label>
+                          <select id="categoryFilter" class="form-control">
+                            <option value="" disabled selected>
+                              Filter Category
+                            </option>
+                            <option value="Tree Planting">Tree Planting</option>
+                            <option value="Fund Raising">Fund Raising</option>
+                            <option value="Donation">Donation</option>
+                            <option value="Clean Up Drive">
+                              Clean Up Drive
+                            </option>
+                            <option value="Feeding Program">
+                              Feeding Program
+                            </option>
+                            <option value="Relief Operation">
+                              Relief Operation
+                            </option>
+                            <option value="Seminar Training">
+                              Seminar Training
+                            </option>
+                            <option value="Teaching Literacy">
+                              Teaching Literacy
+                            </option>
+                            <option value="All Category">All Category</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-container">
+                    <table
+                      class="table table-striped table-hover"
+                      id="tableevents">
+                      <thead class="table-fix">
+                        <tr>
+                          <th id="noid">No.</th>
+                          <th>Poster</th>
+                          <th>Title</th>
+                          <th>Category</th>
+                          <th>Location</th>
+                          <th>Campus</th>
+                          <th>Date & Time</th>
+                          <th>Details</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td id="numid">0</td>
+                          <td>
+                            <a href="#"
+                              ><img
+                                src="../img/cleaning.jpg"
+                                class="eventpic"
+                                alt="Avatar"
+                                id="eventpicimg"
+                            /></a>
+                          </td>
+                          <td id="titleid">Loading.....</td>
+                          <td id="categoryid">Loading.....</td>
+                          <td id="locationid">Loading.....</td>
+                          <td id="campusid">Loading.....</td>
+                          <td id="dateid">
+                            Loading..... <br />
+                            Loading.....
+                          </td>
+                          <td id="btnviewid">
+                            <a> <button id="btnparaview">View</button></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <!-- Updated Modal Structure -->
+                    <div id="eventModalupcom" class="modalupcom">
+                      <div class="modal-contentupcom">
+                        <span class="closepo" id="closeModaldetail">
+                          <ion-icon name="close"></ion-icon>
+                        </span>
+                        <a>
+                          <ion-icon
+                            name="people"
+                            class="user-icon"
+                            id="modalAttendee"
+                            title="Attendees"
+                            style="color: #28a745"></ion-icon>
+                          <span
+                            id="notificationBadge"
+                            class="notification-badge"
+                            >0</span
+                          >
+                        </a>
+                        <h2 id="eventlabel" style="color: #dc3545">
+                          Event Details
+                        </h2>
+
+                        <div id="eventDetailsupcom"></div>
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                          id="closemodalbtnupcom">
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-dismiss="modal"
+                          id="editBtn">
+                          Edit
+                        </button>
+                        <button
+                          id="saveBtn"
+                          type="button"
+                          class="btn btn-success"
+                          style="display: none">
+                          Save
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          data-dismiss="modal"
+                          id="terminate"
+                          style="position: relative; right: 65%">
+                          Terminate
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="myModalat" class="modalat">
+                    <div
+                      class="modal-contentat"
+                      style="width: 95%; height: 95%">
+                      <div class="modal-headerat">
+                        <span class="closeat">&times;</span>
+                        <h4 style="margin-bottom: 15px">People who Joined</h4>
+                        <p style="margin-bottom: 15px">
+                          Total Confirmed:
+                          <span id="totalAttend">0</span>
+                        </p>
+                        <p style="margin-bottom: 15px">
+                          Total Not Confirmed:
+                          <span id="totalNotAttend">0</span>
+                        </p>
+                      </div>
+
+                      <hr />
+
+                      <div
+                        id="searchfieldcontainerSec"
+                        style="float: right; width: 25%">
+                        <button
+                          type="button"
+                          id="btnfilterSec"
+                          class="btn btn-primary">
+                          <i class="fa fa-search"></i>
+                        </button>
+
+                        <div class="filter-group" id="searchfilterSec">
+                          <label>Search </label>
+                          <input
+                            id="inputSearch"
+                            type="text"
+                            class="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="filter-group" id="attendedFilter">
+                        <label>Participants</label>
+                        <select class="form-control">
+                          <option value="Filter Participants" disabled selected>
+                            Filter Participants
+                          </option>
+                          <option value="Engaged">Confirmed</option>
+                          <option value="Not-Engaged">Not Confirmed</option>
+                          <option value="All Participants">
+                            All Participants
+                          </option>
+                        </select>
+                      </div>
+                      <div class="table-containerSec">
+                        <table
+                          id="tableParticipants"
+                          class="table-striped"
+                          style="width: 100%">
+                          <thead class="headerr">
+                            <tr>
+                              <th>UID</th>
+                              <th>Sr-Code</th>
+                              <th>Profile Picture</th>
+                              <th>Name</th>
+                              <th>Campus</th>
+                              <th id="proofHead">Proof</th>
+                              <th>Attendance</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>Loading....</td>
+                              <td>Loading....</td>
+                              <td>
+                                <a href="#"
+                                  ><img
+                                    src="../img/profilePic.jpg"
+                                    class="profilePic"
+                                    alt="Avatar"
+                                    id="profilePic"
+                                /></a>
+                              </td>
+                              <td>Loading....</td>
+                              <td>Loading....</td>
+                              <td>
+                                <a
+                                  href="#"
+                                  id="proof"
+                                  style="
+                                    color: #dc3545;
+                                    text-decoration: underline;
+                                  "
+                                  >View the file</a
+                                >
+                              </td>
+                              <td>
+                                <button class="btn btn-success" id="atdbtn">
+                                  Confirm
+                                </button>
+                              </td>
+                            </tr>
+                            <!-- Add more rows if needed -->
+                          </tbody>
+                        </table>
+
+                        <!-- Message should be within the modal-bodyat div -->
+                        <p
+                          id="noDataMessage"
+                          style="
+                            display: none;
+                            color: red;
+                            text-align: center;
+                            font-size: 20px;
+                            margin-bottom: 15px;
+                          ">
+                          No relevant data found for your criteria
+                        </p>
+                      </div>
+
+                      <hr />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="myModalnm" class="modal" style="display: none">
+        <div class="modal-contentnm">
+          <span class="closenm">&times;</span>
+          <div class="modal-bodyat">
+            <button id="selectAllBtnn">Select All</button>
+            <button id="deselectAllBtnn">Deselect All</button><br />
+            <hr style="margin: 10px" />
+            <form id="campusForm">
+              <input
+                type="checkbox"
+                id="pablo2"
+                class="checkboxna"
+                name="campus"
+                value="Alangilan Campus" />
+              <label for="pablo2" class="labelnato">Alangilan Campus</label
+              ><br />
+              <input
+                type="checkbox"
+                id="arasof"
+                class="checkboxna"
+                name="campus"
+                value="ARASOF Nasugbu Campus" />
+              <label for="arasof" class="labelnato">ARASOF Nasugbu Campus</label
+              ><br />
+
+              <input
+                type="checkbox"
+                id="balayan"
+                class="checkboxna"
+                name="campus"
+                value="Balayan Campus" />
+              <label for="balayan" class="labelnato">Balayan Campus</label
+              ><br />
+
+              <input
+                type="checkbox"
+                id="jplpc"
+                class="checkboxna"
+                name="campus"
+                value="JPLPC Malvar Campus" />
+              <label for="jplpc" class="labelnato">JPLPC Malvar Campus</label
+              ><br />
+
+              <input
+                type="checkbox"
+                id="lemery"
+                class="checkboxna"
+                name="campus"
+                value="Lemery Campus" />
+              <label for="lemery" class="labelnato">Lemery Campus</label><br />
+
+              <input
+                type="checkbox"
+                id="lipa"
+                class="checkboxna"
+                name="campus"
+                value="Lipa Campus" />
+              <label for="lipa" class="labelnato">Lipa Campus</label><br />
+
+              <input
+                type="checkbox"
+                id="lobo"
+                class="checkboxna"
+                name="campus"
+                value="Lobo Campus" />
+              <label for="lobo" class="labelnato">Lobo Campus</label><br />
+
+              <input
+                type="checkbox"
+                id="mabini"
+                class="checkboxna"
+                name="campus"
+                value="Mabini Campus" />
+              <label for="mabini" class="labelnato">Mabini Campus</label><br />
+
+              <input
+                type="checkbox"
+                id="pablo1"
+                class="checkboxna"
+                name="campus"
+                value="Main Campus" />
+              <label for="pablo1" class="labelnato">Main Campus</label><br />
+
+              <input
+                type="checkbox"
+                id="rosario"
+                class="checkboxna"
+                name="campus"
+                value="Rosario Campus" />
+              <label for="rosario" class="labelnato">Rosario Campus</label
+              ><br />
+
+              <input
+                type="checkbox"
+                id="sanjuan"
+                class="checkboxna"
+                name="campus"
+                value="San Juan Campus" />
+              <label for="sanjuan" class="labelnato">San Juan Campus</label
+              ><br />
+            </form>
+
+            <hr style="margin: 10px" />
+          </div>
+
+          <button id="okButton">Ok</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =============================================== Scripts ================================================ -->
+    <script>
+      // Get the notification icon and dropdown content
+      const notificationIcon = document.getElementById("notificationIcon");
+      const notificationDropdown = document.getElementById(
+        "notificationDropdown"
+      );
+
+      // Track whether the dropdown is currently open
+      let isDropdownOpen = false;
+
+      // Add a click event listener to the notification icon
+      notificationIcon.addEventListener("click", function () {
+        // Toggle the visibility of the dropdown content
+        isDropdownOpen = !isDropdownOpen;
+        if (isDropdownOpen) {
+          notificationDropdown.style.display = "block";
+        } else {
+          notificationDropdown.style.display = "none";
+        }
+      });
+
+      // Close the dropdown if the user clicks outside of it
+      window.addEventListener("click", function (event) {
+        if (
+          isDropdownOpen &&
+          event.target !== notificationIcon &&
+          event.target !== notificationDropdown
+        ) {
+          notificationDropdown.style.display = "none";
+          isDropdownOpen = false;
+        }
+      });
+
+      // JavaScript to handle the smooth transition
+      const links = document.querySelectorAll(".page-transition");
+
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault(); // Prevent the default navigation
+
+          // Apply the transition effect
+          document.body.classList.add("page-loading");
+
+          // Navigate to the new page after a short delay (for the transition effect)
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 500); // Adjust the delay time as needed
+        });
+      });
+
+      // JavaScript to initialize table scrolling
+      const tableContainer = document.querySelector(".table-container");
+      const table = document.getElementById("tableevents");
+
+      if (table && tableContainer) {
+        tableContainer.style.maxHeight = "400px"; // Adjust the maximum height as needed
+        const thead = table.querySelector("thead");
+        thead.style.position = "sticky";
+        thead.style.top = 0;
+        // Hide or show the scrollbar based on content overflow
+        const checkOverflow = () => {
+          tableContainer.style.overflowY =
+            tableContainer.scrollHeight > tableContainer.clientHeight
+              ? "scroll"
+              : "auto";
+        };
+
+        // Initially check for overflow
+        checkOverflow();
+
+        // Re-check overflow on window resize
+        window.addEventListener("resize", checkOverflow);
+      }
+      const tableContainers = document.querySelector(".table-containerSec");
+      const tables = document.getElementById("tableParticipants");
+
+      if (tables && tableContainers) {
+        tableContainers.style.maxHeight = "400px"; // Adjust the maximum height as needed
+
+        const thead = table.querySelector("thead");
+        thead.style.position = "sticky";
+        thead.style.top = 0;
+        // Hide or show the scrollbar based on content overflow
+        const checkOverflow = () => {
+          tableContainers.style.overflowY =
+            tableContainers.scrollHeight > tableContainers.clientHeight
+              ? "scroll"
+              : "auto";
+        };
+
+        // Initially check for overflow
+        checkOverflow();
+
+        // Re-check overflow on window resize
+        window.addEventListener("resize", checkOverflow);
+      }
+      const modalEvnts = document.getElementById("myModalevnts");
+      // Get the button that opens the "myModalevnts" modal
+      const btnOpenModalEvnts = document.getElementById("btnparaview");
+
+      // Function to open the "myModalevnts" modal
+      function openModalEvnts() {
+        modalEvnts.style.display = "block";
+      }
+
+      // Function to close the "myModalevnts" modal
+      function closeModalEvnts() {
+        modalEvnts.style.display = "none";
+      }
+
+      // Close the "myModalevnts" modal if clicked outside of it
+      window.addEventListener("click", function (event) {
+        if (event.target === modalEvnts) {
+          closeModalEvnts();
+        }
+      });
+
+      // Event listener for opening the "myModalevnts" modal
+      btnOpenModalEvnts.addEventListener("click", openModalEvnts);
+    </script>
+
+    <!-- firebase function start-->
+    <script type="module" src="js/engagementDetails.js"></script>
+
+    <script type="module" src="js/postEngagement.js"></script>
+
+    <script type="module" src="js/reflectDataNumber.js"></script>
+
+    <script type="module" src="js/logOut.js"></script>
+    <!-- firebase function end -->
+
+    <script src="js/dashboard.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- =============================================== ionicons ================================================ -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+/* =============================================== My account image ================================================  */
+.container-acc {
+  max-width: 300px;
+  width: 100%;
+  background: white;
+  padding: 20px;
+  border-radius: 30px;
+  position: absolute;
+  top: 47%;
+  left: -5%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.19); /* Add shadow */
+}
+
+.img-area {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  background-color: #f2f2f2;
+  margin-bottom: 20px;
+  border: 3px solid black;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.img-area .icon {
+  font-size: 100px;
+}
+.img-area h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+.img-area p {
+  color: #999;
+  font-size: 15px;
+}
+.img-area p span {
+  font-weight: 600;
+}
+.img-area img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 100;
+}
+.img-area::before {
+  content: attr(data-img);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 200;
+}
+.img-area.active:hover::before {
+  opacity: 1;
+}
+.select-image {
+  display: block;
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 15px;
+  background-color: #343a40;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+  border: 2px solid black;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.select-image:hover {
+  background-color: #6c757d;
+}
+
+/* =============================================== Admin Details ================================================  */
+.back-button {
+  background-color: #a90101;
+  color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100px;
+  height: 50px;
+  border-radius: 0px 0px 15px 0px; /* Set the border-radius to 50% to create a circular container */
+  display: flex; /* Use flexbox to center the icon */
+  align-items: center; /* Center the icon vertically */
+  justify-content: center; /* Center the icon horizontally */
+  position: absolute; /* Change the position to absolute */
+  top: 0px; /* Adjust the top position as needed */
+  left: -300px; /* Adjust the right position as needed */
+  cursor: pointer; /* Add a cursor pointer to indicate interactivity */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Make the icon bold */
+.back-button ion-icon {
+  transform: scale(3.2);
+}
+
+/* Apply position and hover effect to the ion-icon */
+.custom-icon {
+  position: relative; /* Set position to relative */
+  top: -10px; /* Adjust vertical position */
+  left: 480px; /* Adjust horizontal position */
+  font-size: 2rem; /* Adjust icon size */
+  color: #333; /* Adjust icon color */
+  transition: transform 0.3s; /* Add transition for hover effect */
+}
+
+/* Hover effect */
+.custom-icon:hover {
+  transform: scale(1.1); /* Enlarge icon on hover */
+  color: #a90101; /* Change icon color on hover */
+}
+
+h1 {
+  position: relative;
+  left: -269px;
+  top: -8px;
+}
+
+.admin-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19);
+  max-width: 550px;
+  width: 100%;
+  margin-top: 550px;
+  margin-right: 5px;
+  position: relative;
+  right: 115px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

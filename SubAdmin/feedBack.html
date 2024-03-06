@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Completed Engagement</title>
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.15.4/css/ionicons.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
+    <link rel="stylesheet" href="css/post.css" />
+
+    <style>
+      .h1-group {
+        position: relative;
+        bottom: 58px;
+        right: 180px;
+      }
+
+      .back-button:hover {
+        background-color: #8c0000;
+        /* Change background color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Add shadow on hover */
+        transform: scale(1.1);
+        /* Slightly scale up on hover */
+      }
+
+      thead {
+        border: solid 1px black;
+      }
+      body {
+        background-color: #e1e1e1;
+      }
+
+      .main {
+        background-color: #e1e1e1;
+      }
+
+      #evntimgpic {
+        border: solid black;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      .modal-content {
+        width: 130%;
+        position: relative;
+        right: 80px;
+      }
+
+      #newcnt {
+        position: relative;
+        right: 50%;
+        width: 200%;
+        max-height: 800px;
+        height: 540px;
+      }
+
+      .search {
+        position: relative;
+        top: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+
+      th,
+      td {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      thead {
+        background-color: #f2f2f2;
+      }
+
+      th {
+        background-color: #333;
+        color: white;
+      }
+      /* ============================ dropdown menu ============================== */
+
+      /* Change the background color on hover */
+      .dropdown-item:hover {
+        background-color: #ddd;
+      }
+
+      a {
+        transition: color 0.3s ease;
+      }
+
+      /* Apply the transition effect on hover */
+      a:hover {
+        color: #a90011;
+        /* Change the link color on hover */
+      }
+
+      /* Style for the transition effect */
+      .page-transition {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+
+      /* Style for the page being loaded */
+      .page-loading {
+        opacity: 0;
+      }
+
+      .table-responsive {
+        width: 115%;
+        margin-left: -25px;
+        justify-content: center;
+        overflow-x: auto;
+      }
+
+      .table-wrapper {
+        min-width: 700px;
+
+        background: #fff;
+        padding: 20px 25px;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+      }
+      .table-wrapper .btn {
+        float: right;
+        color: #333;
+        background-color: #fff;
+        border-radius: 3px;
+        border: none;
+        outline: none !important;
+        margin-left: 10px;
+      }
+      .btn.btn-success {
+        background-color: #28a745;
+        color: #fff;
+      }
+
+      .table-wrapper .btn:hover {
+        color: #fff;
+        background: #10c469;
+      }
+      .table-wrapper .btn.btn-primary {
+        color: #fff;
+        background: #03a9f4;
+      }
+      .table-wrapper .btn.btn-primary:hover {
+        background: #03a3e7;
+      }
+      .table-title .btn {
+        font-size: 13px;
+        border: none;
+      }
+      .table-title .btn i {
+        float: left;
+        font-size: 21px;
+        margin-right: 5px;
+      }
+      .table-title .btn span {
+        float: left;
+        margin-top: 2px;
+      }
+      .table-title {
+        color: #fff;
+        background: #343a40;
+        padding: 16px 25px;
+
+        margin: -20px -25px 10px;
+        border-radius: 3px 3px 0 0;
+      }
+      .table-title h2 {
+        margin: 5px 0 0;
+
+        font-size: 24px;
+      }
+
+      .table-filter .filter-group {
+        margin-left: 15px;
+      }
+      .table-filter input,
+      .table-filter select {
+        height: 40px;
+        border-radius: 3px;
+        border-color: #ddd;
+        box-shadow: none;
+        margin-top: 10px;
+        margin-right: 20px;
+      }
+
+      .table-filter .btn {
+        height: 34px;
+        margin-top: 10px;
+      }
+
+      .table-filter select,
+      .table-filter input {
+        display: inline-block;
+        margin-left: 5px;
+      }
+      .table-filter input {
+        width: 200px;
+        display: inline-block;
+      }
+      .filter-group select.form-control {
+        width: 250px;
+      }
+      .filter-icon {
+        float: right;
+        margin-top: 7px;
+      }
+      .filter-icon i {
+        font-size: 18px;
+        opacity: 0.7;
+      }
+
+      .filter-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+      }
+
+      .filter-group select {
+        margin-left: 10px; /* Adjust as needed */
+      }
+
+      .filter-group label {
+        font-weight: normal;
+        margin-left: 5px; /* Adjust as needed */
+      }
+
+      #searchfilter {
+        position: relative;
+        left: 36%;
+      }
+      #searchfilterSec {
+        margin-top: 5%;
+      }
+      #inputSearch {
+        margin-left: 10px;
+      }
+      table.table tr th,
+      table.table tr td {
+        border-color: #e9e9e9;
+        padding: 12px 15px;
+        vertical-align: middle;
+      }
+      table.table tr th:first-child {
+        width: 60px;
+      }
+      table.table tr th:last-child {
+        width: 80px;
+      }
+      table.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #fcfcfc;
+      }
+      table.table-striped.table-hover tbody tr:hover {
+        background: #f5f5f5;
+      }
+      table.table th i {
+        font-size: 13px;
+        margin: 0 5px;
+        cursor: pointer;
+      }
+      table.table td a {
+        font-weight: bold;
+        color: #566787;
+        display: inline-block;
+        text-decoration: none;
+      }
+      table.table td a:hover {
+        color: #2196f3;
+      }
+
+      table.table .eventpic {
+        margin: 0px;
+        width: 80px;
+        height: 80px;
+        padding: 0px;
+
+        border-radius: 50%;
+      }
+      .eventpics {
+        margin: 0px;
+        width: 80px;
+        height: 80px;
+        padding: 0px;
+
+        border-radius: 50%;
+      }
+      table.table .profilepic {
+        width: 75px;
+        height: 75px;
+        border-radius: 100%;
+      }
+      .text-success {
+        color: #10c469;
+      }
+      .text-info {
+        color: #62c9e8;
+      }
+      .text-warning {
+        color: #ffc107;
+      }
+      .text-danger {
+        color: #dc3545;
+      }
+      /* Targeting the button inside the .col-sm-8 */
+      .col-sm-8 a.btn {
+        /* Your styles here */
+        display: inline-block;
+        background-color: #28a745;
+        color: #ffffff;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        position: relative;
+        bottom: 35px;
+      }
+
+      .col-sm-8 a.btn:hover {
+        /* Styles when hovering over the button */
+        background-color: #1f7f3b;
+        color: white;
+      }
+
+      #btnfilter {
+        position: relative;
+        left: 34%;
+        top: 2px;
+      }
+      #btnfilterSec {
+        position: relative;
+        left: 10px;
+        margin-top: -4%;
+      }
+
+      #eventfilter {
+        position: relative;
+        right: 30px;
+        bottom: 60px;
+        float: left;
+      }
+
+      #campusfilter {
+        position: relative;
+        right: 30px;
+        bottom: 60px;
+        float: left;
+      }
+      #campusfilterSec {
+        position: relative;
+        left: 10px;
+        margin-top: 15px;
+        float: left;
+      }
+      #attendedFilter {
+        position: relative;
+        margin-left: 10px;
+        margin-top: 15px;
+        float: left;
+      }
+      #searchfieldcontainer {
+        position: relative;
+        right: 24px;
+      }
+      #searchfieldcontainerSec {
+        position: relative;
+        right: 50px;
+      }
+      #tableevents {
+        position: relative;
+        bottom: 10px;
+      }
+
+      /* Style for the button */
+      .vieweventdet {
+        background-color: #dc3545;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        padding: 8px 16px;
+        font-size: 16px;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+
+      /* Hover effect: Darker color and larger size */
+      .vieweventdet:hover {
+        background-color: #9c2e3b; /* Darker color */
+        transform: scale(1.1); /* Enlarge button */
+        cursor: pointer;
+      }
+
+      .table-container {
+        max-height: 400px;
+        width: 100%; /* Set the desired height for the scrollable area */
+        position: relative;
+        bottom: 60px;
+      }
+
+      /* Style the fixed table header */
+      .table-fix {
+        position: sticky;
+        top: -2px;
+        background-color: #fff; /* Adjust as needed */
+      }
+
+      /* Style the table cells */
+      #tableevents th,
+      #tableevents td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ccc; /* Add a border for separation */
+      }
+
+      /* Customize the scrollbar */
+      .modal-contentupcom::-webkit-scrollbar {
+        width: 10px; /* Width of the scrollbar */
+      }
+
+      .modal-contentupcom::-webkit-scrollbar-track {
+        background: #f1f1f1; /* Track color */
+        border-radius: 10px;
+      }
+
+      .modal-contentupcom::-webkit-scrollbar-thumb {
+        background: #888; /* Thumb color */
+        border-radius: 10px; /* Rounded corners for the thumb */
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      #closemodalbtnupcom {
+        background-color: #6c757d;
+        color: #ffffff;
+      }
+
+      #closemodalbtnupcom:hover {
+        background-color: #565e64;
+      }
+
+      /* inside the modal content in upcomming */
+      .modal-contentupcom h2 {
+        /* Your existing styles */
+        text-align: center; /* Center align text inside the container */
+        margin-bottom: 20px;
+        text-decoration: underline;
+      }
+
+      #upcompostpic {
+        height: 250px;
+        width: 500px;
+        border: solid 2px black;
+        border-radius: 10px;
+        display: block; /* Ensures the image behaves as a block element */
+        margin: 0 auto; /* Sets margins to auto to horizontally center the image */
+      }
+
+      .eventpic {
+        border: black 1px solid;
+        cursor: default;
+      }
+      .eventpics {
+        border: black 1px solid;
+        cursor: default;
+      }
+      .profilepic {
+        border: #6c757d 1px solid;
+        cursor: default;
+      }
+      #iconto {
+        position: inherit;
+        top: 5px;
+      }
+      #titleto {
+        position: inherit;
+        top: 5px;
+        font-size: 20px;
+      }
+
+      #evntimgpicnew {
+        width: 555px;
+        border-radius: 5%;
+        border: black solid 2px;
+      }
+
+      #campusTarget {
+        background-color: #fff; /* Dark background color */
+        color: black; /* Text color */
+        border: 1px solid #ccc; /* Dark border */
+        padding: 8px 16px; /* Adjust padding as needed */
+        cursor: pointer; /* Change cursor on hover */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+      }
+
+      #campusTarget:hover {
+        background-color: #aaa; /* Darker background color on hover */
+        border-color: #aaa; /* Darker border color on hover */
+        color: #fff; /* Text color on hover */
+      }
+      #campusField {
+        background-color: #fff; /* Dark background color */
+        color: black; /* Text color */
+        border: 1px solid #ccc; /* Dark border */
+        padding: 8px 16px; /* Adjust padding as needed */
+        cursor: pointer; /* Change cursor on hover */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+      }
+
+      #campusField:hover {
+        background-color: #aaa; /* Darker background color on hover */
+        border-color: #aaa; /* Darker border color on hover */
+        color: #fff; /* Text color on hover */
+      }
+      #myModalnm {
+        z-index: 999999999;
+      }
+
+      .btn.btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+      }
+
+      .btn.btn-danger:hover {
+        background: #bd2130; /* Change this color to your desired hover color */
+      }
+
+      .center-text {
+        text-align: center;
+        font-size: 18px;
+      }
+      .upcomingEvents {
+        margin-left: -35%;
+        justify-content: center;
+      }
+
+      .glyphicon {
+        margin-right: 5px;
+      }
+      .rating .glyphicon {
+        font-size: 22px;
+      }
+      .rating-num {
+        margin-top: 0px;
+        font-size: 54px;
+      }
+      .progress {
+        margin-bottom: 5px;
+      }
+      .progress-bar {
+        text-align: left;
+      }
+      .rating-desc .col-md-3 {
+        padding-right: 0px;
+      }
+      .sr-only {
+        margin-left: 5px;
+        margin-bottom: 15px;
+        overflow: visible;
+        clip: auto;
+      }
+      #feedbackid {
+        max-width: 10ch;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+      }
+
+      #reportBtn {
+        position: relative;
+        margin-bottom: 1%;
+        margin-left: -18%;
+        margin-top: -2%;
+      }
+      .notification-link {
+        position: relative;
+        display: inline-block;
+      }
+      .notification-badge {
+        position: absolute;
+        top: -15px;
+        right: -10px;
+        background-color: red;
+        color: white;
+        border-radius: 50%;
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+      #valBtn {
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+        background-color: #fd7e14;
+      }
+
+      .custom-button {
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        margin-left: 50%;
+        transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        z-index: 1;
+      }
+
+      .custom-button:hover {
+        color: #fff;
+        transform: translate(-50%, -50%) scale(1.05);
+      }
+      #myModalat {
+        z-index: 1001; /* Use a value higher than the z-index of eventModalupcom */
+      }
+      .modalat {
+        display: none;
+        position: fixed;
+        z-index: 999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .modal-contentat {
+        background-color: #fff;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 50%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      #myModalatt .modal-headeratt {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 10px;
+      }
+      .modal-headerat h2 {
+        margin: 0;
+      }
+      .closeat {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        position: relative;
+        bottom: 10px;
+      }
+
+      .closeat:hover,
+      .closeat:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .table-containerSec {
+        max-height: 400px;
+        margin-top: 12%;
+        width: 100%;
+        position: relative;
+        bottom: 60px;
+      }
+      table.table-striped tbody tr:nth-of-type(odd) {
+        background-color: #fcfcfc;
+      }
+      table.table-striped.table-hover tbody tr:hover {
+        background: #f5f5f5;
+      }
+      .table-fix th {
+        background-color: #6c757d;
+        position: sticky;
+        color: #fff;
+        z-index: 2;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="topbar">
+        <a href="subdashboard.html" class="page-transition">
+          <div class="back-button">
+            <ion-icon name="return-down-back-outline"></ion-icon>
+          </div>
+        </a>
+
+        <!-- ====== ionicons ======= -->
+        <script
+          type="module"
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      </div>
+      <h1 class="h1-group">Feedback</h1>
+
+      <!-- =============================================== upcoming Events ================================================ -->
+      <div
+        id="ratingStats"
+        class="container"
+        style="margin-top: -80px; margin-bottom: 20px; margin-left: -90px">
+        <div class="row justify-content-end">
+          <div class="col-xs-12 col-md-6">
+            <div class="well well-sm">
+              <div class="row">
+                <div class="col-xs-12 col-md-6 text-center">
+                  <h1
+                    class="rating-num"
+                    id="overallOutput"
+                    style="margin-bottom: -15px; margin-right: -50%">
+                    0.0
+                  </h1>
+                  <div class="rating">
+                    <span class="glyphicon glyphicon-star"></span
+                    ><span class="glyphicon glyphicon-star"> </span
+                    ><span class="glyphicon glyphicon-star"></span
+                    ><span class="glyphicon glyphicon-star"> </span
+                    ><span class="glyphicon glyphicon-star-empty"></span>
+                  </div>
+                  <div>
+                    <p>
+                      <span style="margin-right: -50%">
+                        <i class="fas fa-male" style="margin-right: 5px"></i>
+                        <span id="totalRating" class="glyphicon glyphicon-user"
+                          >0</span
+                        >
+                      </span>
+                    </p>
+                  </div>
+                </div>
+                <div style="margin-top: -1%" class="col-xs-12 col-md-6">
+                  <div class="row rating-desc">
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>5
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress progress-striped">
+                        <div
+                          class="progress-bar progress-bar-success"
+                          role="progressbar"
+                          id="widthFive"
+                          style="width: 0%">
+                          <span id="fiveStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end 5 -->
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>4
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress">
+                        <div
+                          class="progress-bar progress-bar-success"
+                          role="progressbar"
+                          id="widthFour"
+                          style="width: 0%">
+                          <span id="fourStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end 4 -->
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>3
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress">
+                        <div
+                          class="progress-bar progress-bar-info"
+                          role="progressbar"
+                          id="widthThree"
+                          style="width: 0%">
+                          <span id="threeStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end 3 -->
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>2
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress">
+                        <div
+                          class="progress-bar progress-bar-warning"
+                          role="progressbar"
+                          id="widthTwo"
+                          style="width: 0%">
+                          <span id="twoStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end 2 -->
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>1
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress">
+                        <div
+                          class="progress-bar progress-bar-danger"
+                          role="progressbar"
+                          id="widthOne"
+                          style="width: 0%">
+                          <span id="oneStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-xs-3 col-md-3 text-right">
+                      <span class="glyphicon glyphicon-star"></span>0
+                    </div>
+                    <div style="margin-top: 4px" class="col-xs-8 col-md-9">
+                      <div class="progress">
+                        <div
+                          class="progress-bar progress-bar-danger"
+                          role="progressbar"
+                          id="widthZero"
+                          style="width: 0%">
+                          <span id="zeroStar" class="sr-only">0%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end row -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="reportBtn">
+        <a id="studentValidation" class="notification-link">
+          <button
+            type="button"
+            class="btn btn-primary custom-button"
+            id="valBtn">
+            View Reports
+            <span id="reportNumber" class="notification-badge">0</span>
+          </button>
+        </a>
+      </div>
+
+      <div class="upcomingEvents">
+        <div class="container-xl">
+          <div class="table-responsive">
+            <div class="table-wrapper" style="height: 600px">
+              <div class="table-title">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <h2>Feedback Table</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="table-filter">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <div id="searchfieldcontainer">
+                      <button
+                        type="button"
+                        id="btnfilter"
+                        class="btn btn-primary">
+                        <i class="fa fa-search"></i>
+                      </button>
+
+                      <div
+                        style="margin-bottom: 6%"
+                        class="filter-group"
+                        id="searchfilter">
+                        <label style="margin-top: 10px">Search</label>
+
+                        <input
+                          id="searchInput"
+                          type="text"
+                          class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-container">
+                <table class="table table-striped table-hover" id="tableevents">
+                  <thead class="table-fix">
+                    <tr>
+                      <th>UID</th>
+                      <th>Profile Picture</th>
+                      <th>Name</th>
+                      <th>Campus</th>
+                      <th>Date and Time</th>
+                      <th>Feedback</th>
+                      <th>Rating</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td id="numid">0</td>
+                      <td>
+                        <a href="#"
+                          ><img
+                            src="../img/profilePic.jpg"
+                            class="eventpic"
+                            alt="Avatar"
+                            id="profilePic"
+                        /></a>
+                      </td>
+                      <div
+                        id="noMatchMessage"
+                        style="display: none; text-align: center">
+                        Your input does not match any criteria.
+                      </div>
+                      <td id="nameid">Loading.....</td>
+                      <td id="campusid">Loading.....</td>
+                      <td id="datetimeid">Loading.....</td>
+                      <td id="feedbackid">Loading.....</td>
+                      <td id="ratingid">Loading.....</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="myModalat" class="modalat">
+        <div class="modal-contentat" style="width: 95%; height: 95%">
+          <div class="modal-headerat">
+            <span class="closeat">&times;</span>
+            <h4>Problem Reports</h4>
+          </div>
+
+          <hr />
+          <div id="searchfieldcontainerSec" style="float: right; width: 25%">
+            <div class="filter-group" id="searchfilterSec">
+              <label>Search </label>
+              <input id="inputSearch" type="text" class="form-control" />
+              <button type="button" id="btnfilterSec" class="btn btn-primary">
+                <i class="fa fa-search"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-containerSec">
+            <table
+              id="tableParticipants"
+              class="table-striped"
+              style="width: 100%">
+              <thead class="headerr">
+                <tr>
+                  <th>UID</th>
+
+                  <th>Name</th>
+                  <th>Campus</th>
+                  <th>Issue</th>
+                  <th>Description</th>
+                  <th>Proof</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Loading....</td>
+                  <td>Loading....</td>
+                  <td>Loading....</td>
+                  <td>Loading....</td>
+                  <td>Loading....</td>
+                  <td>
+                    <a
+                      href="#"
+                      id="proof"
+                      style="color: #dc3545; text-decoration: underline"
+                      >View the file</a
+                    >
+                  </td>
+                  <td id="btnDelete">
+                    <a>
+                      <button class="btn btn-danger" id="btnDelete">
+                        Delete
+                      </button></a
+                    >
+                  </td>
+                </tr>
+                <!-- Add more rows if needed -->
+              </tbody>
+            </table>
+
+            <!-- Message should be within the modal-bodyat div -->
+            <p
+              id="noDataMessage"
+              style="
+                display: none;
+                color: red;
+                text-align: center;
+                font-size: 20px;
+                margin-bottom: 15px;
+              ">
+              No relevant data found for your criteria
+            </p>
+          </div>
+          <hr />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript to handle the smooth transition
+      const links = document.querySelectorAll(".page-transition");
+
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault(); // Prevent the default navigation
+
+          // Apply the transition effect
+          document.body.classList.add("page-loading");
+
+          // Navigate to the new page after a short delay (for the transition effect)
+          setTimeout(() => {
+            window.location.href = link.href;
+          }, 500); // Adjust the delay time as needed
+        });
+      });
+
+      // JavaScript to initialize table scrolling
+      const tableContainer = document.querySelector(".table-container");
+      const table = document.getElementById("tableevents");
+
+      if (table && tableContainer) {
+        tableContainer.style.maxHeight = "400px"; // Adjust the maximum height as needed
+
+        const thead = table.querySelector("thead");
+        thead.style.position = "sticky";
+        thead.style.top = 0;
+        // Hide or show the scrollbar based on content overflow
+        const checkOverflow = () => {
+          tableContainer.style.overflowY =
+            tableContainer.scrollHeight > tableContainer.clientHeight
+              ? "scroll"
+              : "auto";
+        };
+
+        // Initially check for overflow
+        checkOverflow();
+
+        // Re-check overflow on window resize
+        window.addEventListener("resize", checkOverflow);
+      }
+      const tableContainers = document.querySelector(".table-containerSec");
+      const tables = document.getElementById("tableParticipants");
+
+      if (tables && tableContainers) {
+        tableContainers.style.maxHeight = "500px"; // Adjust the maximum height as needed
+
+        const thead = table.querySelector("thead");
+        thead.style.position = "sticky";
+        thead.style.top = 0;
+        // Hide or show the scrollbar based on content overflow
+        const checkOverflow = () => {
+          tableContainers.style.overflowY =
+            tableContainers.scrollHeight > tableContainers.clientHeight
+              ? "scroll"
+              : "auto";
+        };
+
+        // Initially check for overflow
+        checkOverflow();
+
+        // Re-check overflow on window resize
+        window.addEventListener("resize", checkOverflow);
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script type="module" src="js/feedBack.js"></script>
+    <script type="module" src="js/feedbackReport.js"></script>
+  </body>
+</html>

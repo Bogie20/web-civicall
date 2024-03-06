@@ -1,0 +1,66 @@
+/* =========== Google Fonts ============ */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+body {
+  font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.event-info {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.event-image img {
+  width: 400px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-right: 20px;
+}
+
+.event-title {
+  font-size: 24px;
+  text-decoration: underline;
+}
+
+.event-details {
+  flex: 1;
+}
+
+.event-details h4 {
+  position: relative;
+  top: 10px;
+}
+
+/* Rest of your CSS styles */
+
+.event-description {
+  margin: 20px;
+}
+
+.event-description h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.event-description h3 {
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.event-description p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+/* Add more styles as needed */
+
+#main-info {
+  border: solid 1px black;
+  margin: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}

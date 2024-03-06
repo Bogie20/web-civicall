@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container123 {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  right: 150px;
+  bottom: 30px;
+  border-radius: 15px;
+}
+
+.picture {
+  width: 150px; /* Set the desired width */
+  border: 2px solid black; /* Add border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add box shadow */
+  border-radius: 15px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  left: 350px;
+}
+
+.header img {
+  margin-right: 20px;
+}
+
+h1 {
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="email"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: not-allowed;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.back-button {
+  /* Other styles */
+  background-color: #a90101;
+  color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 102px;
+  height: 50px;
+  border-radius: 0px 0px 15px 0px; /* Set the border-radius to 50% to create a circular container */
+  display: flex; /* Use flexbox to center the icon */
+  align-items: center; /* Center the icon vertically */
+  justify-content: center; /* Center the icon horizontally */
+  position: fixed; /* Change the position to absolute */
+  top: 0px; /* Adjust the top position as needed */
+  left: 0px; /* Adjust the right position as needed */
+  cursor: pointer; /* Add a cursor pointer to indicate interactivity */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Add smooth transitions */
+}
+
+.back-button:hover {
+  background-color: #8c0000; /* Change background color on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+  transform: scale(1.1); /* Slightly scale up on hover */
+}
+
+/* Make the icon bold */
+.back-button ion-icon {
+  transform: scale(3.2);
+}

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admins</title>
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+      .container {
+        position: relative;
+        right: 235px;
+        width: 200%;
+        bottom: 25px;
+      }
+
+      .h1-group {
+        position: relative;
+        bottom: 58px;
+        right: 180px;
+      }
+
+      /* for modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        /* Position at the vertical center of the viewport */
+        left: 50%;
+        /* Position at the horizontal center of the viewport */
+        transform: translate(-50%, -50%);
+        /* Center the content */
+        max-width: 35%;
+        /* Limit the width of the content */
+        height: 100%;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        overflow-y: auto;
+        /* Add scrollbar if content exceeds modal height */
+      }
+
+      .close {
+        position: relative;
+        top: -10px;
+        right: -440px;
+        font-size: 25px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      /* Styles for elements inside .container-popup */
+      .container-popup {
+        width: 500px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .container-popup h2 {
+        text-align: center;
+      }
+
+      .container-popup label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .container-popup input,
+      .container-popup select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .container-popup button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      .container-popup button:hover {
+        background-color: #0056b3;
+      }
+
+      .custom-button {
+        position: absolute;
+        top: 100px;
+        left: -165px;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        /* Change cursor to pointer */
+        /* Other button styling properties */
+
+        /* Transition effect for hover */
+        transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        z-index: 1;
+      }
+
+      .custom-button:hover {
+        background-color: #007bff;
+        /* Change background color on hover */
+        color: #fff;
+        /* Change text color on hover */
+        transform: translate(-50%, -50%) scale(1.05);
+        /* Scale up slightly on hover */
+      }
+
+      .upper-container {
+        width: 100%;
+        height: 50px;
+        background-color: #007bff;
+        /* Blue color */
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        /* Place the container behind the main content */
+      }
+
+      thead {
+        border: solid 1px black;
+      }
+
+      .back-button:hover {
+        background-color: #8c0000;
+        /* Change background color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Add shadow on hover */
+        transform: scale(1.1);
+        /* Slightly scale up on hover */
+      }
+
+      /* background color */
+
+      .main {
+        background-color: #e1e1e1;
+        border-radius: 50% 0px 0px 50%;
+      }
+
+      .modal-dialog {
+        height: 740px;
+        max-width: 100%;
+      }
+
+      body {
+        background-color: #e1e1e1;
+      }
+
+      .image-container {
+        display: flex;
+        justify-content: center; /* Horizontally center */
+        align-items: center; /* Vertically center */
+        margin-bottom: 20px; /* Adjust margin as needed */
+      }
+
+      .rounded-image {
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        width: 150px;
+        height: 150px;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 14%;
+        top: 114.5%;
+        cursor: pointer;
+      }
+
+      /* Additional styling for the icon, adjust as needed */
+      #passwordIcon,
+      #confirmPasswordIcon {
+        color: #aaa;
+      }
+
+      #toggleConfirmPassword {
+        position: absolute;
+        right: 10px;
+        top: 40%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .password-container {
+        position: relative;
+      }
+      .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 40%;
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+      .closepo {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .closepo:hover,
+      .closepo:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .closepo {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="topbar">
+        <a href="supdashboard.html">
+          <div class="back-button">
+            <ion-icon name="return-down-back-outline"></ion-icon>
+          </div>
+        </a>
+
+        <!-- ====== ionicons ======= -->
+        <script
+          type="module"
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      </div>
+      <h1 class="h1-group">Admins</h1>
+      <a href="#" id="openModalBtn">
+        <button type="button" class="btn btn-primary custom-button" id="addBtn">
+          Add Account
+        </button>
+      </a>
+
+      <div class="modal" id="myModal">
+        <div class="modal-content" id="modalContent">
+          <div class="container-popup">
+            <span class="close" id="closeModal">&times;</span>
+
+            <h2>Create Admin Account</h2>
+            <form id="MainForm">
+              <label for="firstname">First Name:</label>
+              <input
+                required
+                type="text"
+                id="firstname"
+                name="firstname"
+                placeholder="Enter the First Name" />
+
+              <label for="lastname">Middle Name:</label>
+              <input
+                type="text"
+                id="middlename"
+                name="lastname"
+                required
+                placeholder="Enter the Middle Name" />
+
+              <label for="middlename">Last Name:</label>
+              <input
+                type="text"
+                id="lastname"
+                name="middlename"
+                required
+                placeholder="Enter the Last Name" />
+
+              <label for="campus">Gender:</label>
+              <select id="gender" name="campus" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+
+              <label for="campus">Campus:</label>
+              <select id="campus" name="campus" required>
+                <option value="" disabled selected>Select Campus</option>
+                <option value="Alangilan Campus">Alangilan Campus</option>
+                <option value="ARASOF Nasugbu Campus">
+                  ARASOF Nasugbu Campus
+                </option>
+                <option value="Balayan Campus">Balayan Campus</option>
+                <option value="JPLPC Malvar Campus">JPLPC Malvar Campus</option>
+                <option value="Lemery Campus">Lemery Campus</option>
+                <option value="Lipa Campus">Lipa Campus</option>
+                <option value="Lobo Campus">Lobo Campus</option>
+                <option value="Mabini Campus">Mabini Campus</option>
+                <option value="Main Campus">Main Campus</option>
+
+                <option value="Rosario Campus">Rosario Campus</option>
+                <option value="San Juan Campus">San Juan Campus</option>
+              </select>
+
+              <label for="email">Email Address:</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="Enter the Email" />
+
+              <label for="password">Password:</label>
+              <div class="password-container">
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  placeholder="Enter the Password" />
+                <span id="togglePassword" class="toggle-password">
+                  <i id="passwordIcon" class="fas fa-eye"></i>
+                </span>
+              </div>
+
+              <label for="password">Confirm Password:</label>
+              <div class="password-container">
+                <input
+                  type="password"
+                  id="confirmpassword"
+                  name="password"
+                  required
+                  placeholder="Re-type the Password" />
+                <span id="toggleConfirmPassword" class="toggle-password">
+                  <i id="confirmPasswordIcon" class="fas fa-eye"></i>
+                </span>
+              </div>
+
+              <button type="button" id="subbtn">Create Account</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="container py-5">
+        <div class="row">
+          <table id="example" class="table table-striped" style="width: 100%">
+            <thead class="headerr">
+              <tr>
+                <th>UID</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Campus</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="tbody1" style="font-size: 13px"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModalLong"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5
+                class="modal-title"
+                id="exampleModalLongTitle"
+                style="position: relative; left: 38%">
+                Admin Details
+              </h5>
+              <span class="closepo" id="closeModalpo">
+                <ion-icon name="close" data-dismiss="modal"></ion-icon>
+              </span>
+            </div>
+            <div class="modal-body" id="modalBodyContent">
+              <!-- User details will be populated here -->
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-dismiss="modal"
+                id="terminate"
+                style="position: relative; right: 51%">
+                Terminate
+              </button>
+              <button
+                type="button"
+                class="btn btn-success"
+                data-dismiss="modal"
+                id="editBtn">
+                Edit
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                id="closemodalbtn">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="exampleModalLong"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true"></div>
+    </div>
+
+    <script>
+      const passwordField = document.getElementById("password");
+      const togglePassword = document.getElementById("togglePassword");
+      const passwordIcon = document.getElementById("passwordIcon");
+
+      togglePassword.addEventListener("click", function () {
+        if (passwordField.type === "password") {
+          passwordField.type = "text";
+          passwordIcon.classList.remove("fa-eye");
+          passwordIcon.classList.add("fa-eye-slash");
+        } else {
+          passwordField.type = "password";
+          passwordIcon.classList.remove("fa-eye-slash");
+          passwordIcon.classList.add("fa-eye");
+        }
+      });
+
+      const confirmPasswordField = document.getElementById("confirmpassword");
+      const toggleConfirmPassword = document.getElementById(
+        "toggleConfirmPassword"
+      );
+      const confirmPasswordIcon = document.getElementById(
+        "confirmPasswordIcon"
+      );
+
+      toggleConfirmPassword.addEventListener("click", function () {
+        if (confirmPasswordField.type === "password") {
+          confirmPasswordField.type = "text";
+          confirmPasswordIcon.classList.remove("fa-eye");
+          confirmPasswordIcon.classList.add("fa-eye-slash");
+        } else {
+          confirmPasswordField.type = "password";
+          confirmPasswordIcon.classList.remove("fa-eye-slash");
+          confirmPasswordIcon.classList.add("fa-eye");
+        }
+      });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="js/addAdmin.js"></script>
+
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"></script>
+    <script>
+      new DataTable("#example");
+    </script>
+
+    <script type="module" src="js/createSubAdmin.js"></script>
+  </body>
+</html>

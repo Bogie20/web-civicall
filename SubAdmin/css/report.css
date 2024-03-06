@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+/* =============== Globals ============== */
+* {
+  font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.report-container {
+  border: solid 1px black;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19);
+  background-color: #6c757d56;
+}
+
+#report {
+  width: 900px;
+  margin-top: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.submit-report {
+  background-color: #dc3545; /* Blue background color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Cursor style on hover */
+  transition: background-color 0.3s, transform 0.3s; /* Transition effects */
+  position: relative;
+  top: -13px;
+}
+
+.submit-report:hover {
+  background-color: #a90011; /* Darker blue background color on hover */
+  transform: scale(1.05); /* Slightly scale up on hover */
+}

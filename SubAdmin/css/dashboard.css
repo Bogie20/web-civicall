@@ -1,0 +1,540 @@
+/* =========== Google Fonts ============ */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap");
+
+/* =============== Globals ============== */
+* {
+  font-family: "Ubuntu", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bsu: #a90011;
+  --white: #fff;
+  --gray: #f5f5f5;
+  --black1: #222;
+  --black2: #999;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.container1 {
+  position: relative;
+  width: 100%;
+}
+
+/* =============================================== Navigation ================================================  */
+.navigation {
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  background: var(--bsu);
+  border-left: 10px solid var(--bsu);
+  transition: 0.5s;
+  overflow: hidden;
+}
+
+.navigation.active {
+  width: 80px;
+}
+
+.navigation ul {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.navigation ul li {
+  position: relative;
+  width: 100%;
+  list-style: none;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.navigation ul li:hover,
+.navigation ul li.hovered {
+  background-color: var(--white);
+}
+
+.navigation ul li:nth-child(1) {
+  margin-bottom: 40px;
+  pointer-events: none;
+}
+
+.navigation ul li a {
+  position: relative;
+  display: block;
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: var(--white);
+}
+.navigation ul li:hover a,
+.navigation ul li.hovered a {
+  color: var(--bsu);
+}
+
+.navigation ul li a .icon {
+  position: relative;
+  display: block;
+  min-width: 60px;
+  height: 60px;
+  line-height: 75px;
+  text-align: center;
+}
+.navigation ul li a .icon ion-icon {
+  font-size: 1.75rem;
+}
+
+.navigation ul li a .title {
+  position: relative;
+  display: block;
+  padding: 0 10px;
+  height: 60px;
+  line-height: 60px;
+  text-align: start;
+  white-space: nowrap;
+}
+
+/* =============================================== Curve outside ================================================  */
+.navigation ul li:hover a::before,
+.navigation ul li.hovered a::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: -50px;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 35px 35px 0 10px var(--white);
+  pointer-events: none;
+}
+.navigation ul li:hover a::after,
+.navigation ul li.hovered a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -50px;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+  box-shadow: 35px -35px 0 10px var(--white);
+  pointer-events: none;
+}
+
+/* =============================================== Main upperfields ================================================  */
+.main {
+  position: absolute;
+  width: calc(100% - 300px);
+  left: 300px;
+  min-height: 100vh;
+  background: var(--white);
+  transition: 0.5s;
+}
+.main.active {
+  width: calc(100% - 80px);
+  left: 80px;
+}
+
+.topbar {
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+}
+
+.toggle {
+  color: #a90011;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+}
+
+.search {
+  position: relative;
+  top: 13px;
+  width: 400px;
+  margin: 0 10px;
+}
+
+.search label {
+  position: relative;
+  width: 100%;
+}
+
+.search label input {
+  width: 100%;
+  height: 40px;
+  border-radius: 40px;
+  padding: 5px 20px;
+  padding-left: 35px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid var(--black2);
+}
+
+.search label ion-icon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2rem;
+  color: #999;
+}
+
+.user {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.user img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================ popup myaccount ============================== */
+.popup-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  padding: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  /* Set the size of the container */
+  width: 50%;
+  height: 90%;
+}
+
+.popup-form h2 {
+  margin-bottom: 15px;
+}
+
+.popup-form button {
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 40px;
+}
+
+.popup-form button:last-child {
+  margin-left: 500px;
+  margin-top: 430px;
+  background-color: #ccc;
+}
+
+.popup-form button:last-child:hover {
+  background-color: #999;
+}
+
+/* ============================ popup logout ============================== */
+#logoutForm {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f9f9f9;
+  padding: 20px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  border-radius: 20px;
+  /* Set the size of the container */
+  width: 20%;
+  height: 30%;
+}
+
+#logoutForm h2 {
+  margin-bottom: 15px;
+}
+
+#logoutForm p {
+  margin-bottom: 20px;
+}
+
+#logoutForm button {
+  padding: 10px 20px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+#logoutForm button:hover {
+  background-color: #a90011;
+}
+
+#logoutForm button:last-child {
+  margin-left: 25px;
+  background-color: #ccc;
+}
+
+#logoutForm button:last-child:hover {
+  background-color: #999;
+}
+
+/* =============================================== Cards ================================================  */
+.cardBox {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 30px;
+}
+
+.cardBox .card {
+  position: relative;
+  background: var(--white);
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
+.cardBox .card .numbers {
+  position: relative;
+  font-weight: 500;
+  font-size: 2.5rem;
+  color: var(--bsu);
+}
+
+.cardBox .card .cardName {
+  color: var(--black2);
+  font-size: 1.1rem;
+  margin-top: 5px;
+}
+
+.cardBox .card .iconBx {
+  font-size: 3.5rem;
+  color: var(--black2);
+}
+
+.cardBox .card:hover {
+  background: var(--bsu);
+}
+.cardBox .card:hover .numbers,
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBx {
+  color: var(--white);
+}
+
+/* Target links with the class "no-underline" */
+.no-underline {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* =============================================== Order details list ================================================  */
+
+.upcoming .upcomingEvents {
+  position: relative;
+  display: grid;
+  min-height: 500px;
+  background: var(--white);
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+.cardHeader h2 {
+  font-weight: 600;
+  color: var(--bsu);
+}
+
+.upcoming .cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cardHeader .btn {
+  position: relative;
+  padding: 5px 10px;
+  background: var(--bsu);
+  text-decoration: none;
+  color: var(--white);
+  border-radius: 6px;
+}
+
+/* Apply styles to the events containers */
+.events-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 10px;
+  position: relative;
+  top: -150px;
+  height: 100px;
+}
+
+/* Style for event cards */
+.event-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  width: calc(100%); /* Adjust card width as per your layout */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-link-style {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the color from the parent container */
+}
+
+.no-link-style:hover {
+  text-decoration: none; /* Remove underline on hover */
+  background-color: #f0f0f0;
+}
+
+/* Responsive layout for event cards */
+@media screen and (max-width: 768px) {
+  .event-card {
+    width: 100%;
+  }
+}
+
+/* =============================================== Responsive Design ================================================  */
+@media (max-width: 991px) {
+  .navigation {
+    left: -300px;
+  }
+  .navigation.active {
+    width: 300px;
+    left: 0;
+  }
+  .main {
+    width: 100%;
+    left: 0;
+  }
+  .main.active {
+    left: 300px;
+  }
+  .cardBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+  .recentOrders {
+    overflow-x: auto;
+  }
+  .status.inProgress {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .cardBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .cardHeader h2 {
+    font-size: 20px;
+  }
+  .user {
+    min-width: 40px;
+  }
+  .navigation {
+    width: 100%;
+    left: -100%;
+    z-index: 1000;
+  }
+  .navigation.active {
+    width: 100%;
+    left: 0;
+  }
+  .toggle {
+    z-index: 10001;
+  }
+  .main.active .toggle {
+    color: #fff;
+    position: fixed;
+    right: 0;
+    left: initial;
+  }
+}
+
+/* =============================================== for buttons ================================================  */
+
+.back-button {
+  /* Other styles */
+  background-color: #a90101;
+  color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 100px;
+  height: 50px;
+  border-radius: 0px 0px 15px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0px;
+  left: -300px;
+  cursor: pointer;
+  /* Add box shadow */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adjust values as needed */
+  transition: transform 0.3s, box-shadow 0.3s; /* Add transition effect */
+}
+
+/* Make the icon bold */
+.back-button ion-icon {
+  transform: scale(3.2);
+}
+
+/* Hover effect */
+.back-button:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
+}
+
+#openPostModal:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  transition: transform 0.3s;
+  /* Add other styling changes for hover if needed */
+}
+
+/* Apply the hover effect to the ion-icon element */
+.hover-icon:hover {
+  transform: scale(1.2); /* Enlarge on hover */
+  transition: transform 0.3s; /* Add a smooth transition effect */
+  /* Add other styling changes for hover if needed */
+}
+/* Apply the hover effect to the image element */
+.hover-effect:hover {
+  transform: scale(1.2); /* Enlarge on hover */
+  transition: transform 0.3s; /* Add a smooth transition effect */
+  /* Add other styling changes for hover if needed */
+}

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Archive</title>
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/5.5.2/css/ionicons.min.css" />
+
+    <style>
+      .container {
+        position: relative;
+        right: 235px;
+        width: 200%;
+        bottom: 50px;
+      }
+
+      .h1-group {
+        position: relative;
+        bottom: 58px;
+        right: 180px;
+      }
+
+      .custom-button {
+        position: absolute;
+        top: 100px;
+        left: -165px;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        z-index: 1;
+      }
+
+      .custom-button:hover {
+        background-color: #007bff;
+        /* Change background color on hover */
+        color: #fff;
+        /* Change text color on hover */
+        transform: translate(-50%, -50%) scale(1.05);
+        /* Scale up slightly on hover */
+      }
+
+      .upper-container {
+        width: 100%;
+        height: 50px;
+        background-color: #007bff;
+        /* Blue color */
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        /* Place the container behind the main content */
+      }
+
+      .back-button:hover {
+        background-color: #8c0000;
+        /* Change background color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        /* Add shadow on hover */
+        transform: scale(1.1);
+        /* Slightly scale up on hover */
+      }
+
+      thead {
+        border: solid 1px black;
+      }
+
+      .main {
+        background-color: #e1e1e1;
+        border-radius: 50% 0px 0px 50%;
+      }
+
+      body {
+        background-color: #e1e1e1;
+      }
+
+      #profileImage {
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        width: 150px;
+        object-fit: cover;
+        height: 150px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      .modal-content {
+        width: 100%;
+      }
+
+      #newcnt {
+        position: relative;
+        right: 50%;
+        width: 200%;
+        max-height: 800px;
+        height: 540px;
+      }
+
+      #proofImage {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+      .form-control {
+        margin-bottom: 15px;
+      }
+      .closepo {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .closepo:hover,
+      .closepo:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .closepo {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="topbar">
+        <a href="totalStudents.html">
+          <div class="back-button">
+            <ion-icon name="return-down-back-outline"></ion-icon>
+          </div>
+        </a>
+
+        <!-- ====== ionicons ======= -->
+        <script
+          type="module"
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+      </div>
+      <h1 class="h1-group">User Archive</h1>
+
+      <div class="container py-5">
+        <div class="row">
+          <table id="example" class="table table-striped" style="width: 100%">
+            <thead>
+              <tr>
+                <th>UID</th>
+                <th>Sr-Code</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Year & Section</th>
+                <th>Campus</th>
+                <th>User Type</th>
+                <th>NSTP Program</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="tbody1" style="font-size: 13px"></tbody>
+          </table>
+
+          <!-- Modal -->
+          <div
+            class="modal"
+            id="exampleModalLonggg"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLongggTitle"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongggTitle">
+                    User Details
+                  </h5>
+                  <span class="closepo" id="closeModalpo">
+                    <ion-icon name="close" data-dismiss="modal"></ion-icon>
+                  </span>
+                </div>
+                <div class="modal-body">
+                  <!-- 1. Image -->
+                  <div class="text-center">
+                    <img
+                      alt="Event Image"
+                      class="img-fluid"
+                      id="profileImage"
+                      loading="lazy" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="Fullname">Fullname:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="fullName"
+                      value="Leonard Suba Briones"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Email">Email:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="email"
+                      value="20-64514@g.batstate-u.edu.ph"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="gender"
+                      value="Male"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Birthday">Date of Birth:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="birthDay"
+                      value="12/25/2002"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Address">Address:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      value="Santiago Malvar Batangas"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="category">User Type:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userType"
+                      value="Undergraduate"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="Campus">Campus:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="campus"
+                      value="JPLPC Malvar Campus"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="numberuser">Mobile Number:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="numberMobile"
+                      value="09472264408"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="srCode">SR Code:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="srCode"
+                      value="09472264408"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="userCourse">Course:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="userCourse"
+                      value="09472264408"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="yearandSect">Year and Section:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="yearandSect"
+                      value="09472264408"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="nstp">NSTP:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="nstp"
+                      value="09472264408"
+                      readonly />
+                  </div>
+                  <div class="form-group">
+                    <label for="lastLogin">Last Login:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lastLogin"
+                      readonly />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" id="terminate">
+                    Terminate
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal">
+                    Close
+                  </button>
+                  <!-- Additional buttons or actions can be added here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <script src="js/addAdmin.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Bootstrap JS (including Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Firebase scripts -->
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+    <script
+      type="module"
+      src="https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js"></script>
+
+    <script type="module" src="js/archive.js"></script>
+  </body>
+</html>

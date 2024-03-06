@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account</title>
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/my_account.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+      .main {
+        background-color: #e1e1e1;
+        border-radius: 50% 0px 0px 50%;
+      }
+
+      body {
+        background-color: #e1e1e1;
+      }
+
+      .input-container {
+        position: relative;
+      }
+
+      .input-container .edit-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        /* Adjust the distance from the right side */
+        transform: translateY(-50%);
+        cursor: pointer;
+      }
+
+      .edit-icon {
+        cursor: pointer;
+        font-size: 20px;
+        color: green;
+        /* Default color when not editing */
+        transition: font-size 0.3s;
+        /* Add transition on font size */
+      }
+
+      .editing .edit-icon {
+        font-size: 24px;
+        /* Enlarge font size when in edit mode */
+        color: blue;
+        /* Change color when in edit mode */
+      }
+      h1 {
+        margin-top: 10px;
+        margin-left: -200px;
+      }
+
+      .admin-info {
+        margin-top: 67%;
+        margin-right: 10%;
+      }
+      .container-acc {
+        margin-left: 15%;
+      }
+      #saveBtn {
+        background-color: #28a745;
+      }
+      .custom-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        z-index: 1;
+      }
+
+      .custom-button:hover {
+        color: #fff;
+        transform: scale(1.05);
+      }
+
+      /* for header =========================================================================*/
+
+      /* Styles for non-responsive devices or default styles */
+
+      #mainname {
+        font-size: 40px;
+      }
+
+      /* Media query for devices with a maximum width of 1600 pixels (typical for larger screens) */
+      @media only screen and (max-width: 1600px) {
+        #mainname {
+          font-size: 40px;
+          position: relative;
+          left: -290px;
+        }
+      }
+
+      /* Media query for devices with a maximum width of 768 pixels (typical for tablets) */
+      @media only screen and (max-width: 1300px) {
+        #mainname {
+          font-size: 40px;
+          position: relative;
+          left: -140px;
+        }
+      }
+
+      /* this is for profile container ========================================================================*/
+
+      .container-acc {
+        max-width: 300px; /* Set the default max-width */
+        margin: 0 auto; /* Center the container horizontally */
+        padding: 20px; /* Set default padding */
+        border: 1px solid #ddd; /* Add default border for visualization */
+      }
+
+      /* Media query for devices with a maximum width of 768 pixels (typical for tablets) */
+      @media only screen and (max-width: 1600px) {
+        .container-acc {
+          max-width: 300px; /* Make the container full width for tablets */
+          padding: 10px;
+          margin-left: 150px;
+          margin-top: -100px; /* Adjust padding for tablets */
+        }
+      }
+
+      /* Media query for devices with a maximum width of 480 pixels (typical for smartphones) */
+      @media only screen and (max-width: 1300px) {
+        .container-acc {
+          max-width: 300px;
+          margin-left: 30px;
+          margin-top: 20px;
+        }
+      }
+
+      /* this is for details responsive ====================================================================== */
+
+      .admin-info {
+        width: 600px; /* Set the default width */
+        position: relative;
+        top: 25px;
+      }
+
+      /* Media query for devices with a maximum width of 768 pixels (typical for tablets) */
+      @media only screen and (max-width: 1600px) {
+        .admin-info {
+          width: 100%;
+          position: relative;
+          top: 30px;
+        }
+      }
+
+      /* Media query for devices with a maximum width of 480 pixels (typical for smartphones) */
+      @media only screen and (max-width: 1300px) {
+        .admin-info {
+          width: 100%;
+          position: relative;
+          top: 20px;
+          left: -30px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="topbar">
+        <!-- =========== Scripts =========  -->
+
+        <!-- ====== ionicons ======= -->
+        <script
+          type="module"
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script
+          nomodule
+          src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+        <!-- =============== My account form ================ -->
+
+        <a href="subdashboard.html">
+          <div class="back-button">
+            <ion-icon name="return-down-back-outline"></ion-icon>
+          </div>
+        </a>
+
+        <h1 id="mainname">My Account</h1>
+
+        <div class="container-acc" id="useadpro">
+          <input type="file" id="file" accept="image/*" hidden />
+          <div class="img-area" data-img="">
+            <i class="bx bxs-cloud-upload icon"></i>
+            <img id="profileImage" src="" />
+          </div>
+          <button class="select-image">Edit Image</button>
+        </div>
+
+        <script src="js/my_account.js"></script>
+
+        <!-- =============== My account details ================ -->
+        <div class="admin-info" id="adconpro">
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <div class="input-container">
+              <input
+                type="email"
+                id="accountemail"
+                name="email"
+                value="Loading......"
+                readonly />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-id">Campus:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="campus"
+                name="account-id"
+                value="Loading......"
+                readonly />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-id">First Name:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="firstname"
+                name="account-id"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('firstname')">✎</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-id">Middle Name:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="middlename"
+                name="account-id"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('middlename')"
+                >✎</span
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-id">Last Name:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="lastname"
+                name="account-id"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('lastname')">✎</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="gender">Gender:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="accountgender"
+                name="gender"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('accountgender')"
+                >✎</span
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bday">Birthday:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="accountbday"
+                name="bday"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('accountbday')"
+                >✎</span
+              >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cpnum">Contact Number:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="accountcontact"
+                name="cpnum"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('accountcontact')"
+                >✎</span
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="position">Position:</label>
+            <div class="input-container">
+              <input
+                type="text"
+                id="accountposition"
+                name="position"
+                value="Loading......"
+                readonly />
+              <span class="edit-icon" onclick="enableEdit('accountposition')"
+                >✎</span
+              >
+            </div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-success custom-button"
+          id="saveBtn"
+          style="display: none">
+          Save
+        </button>
+        <script>
+          function enableEdit(fieldName) {
+            const field = document.getElementById(fieldName);
+            const inputContainer = field.parentElement;
+
+            inputContainer.classList.toggle("editing");
+            field.readOnly = !field.readOnly;
+          }
+        </script>
+      </div>
+    </div>
+    <script type="module" src="js/subProfile.js"></script>
+  </body>
+</html>

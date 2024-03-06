@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="css/forgot.css" />
+    <link rel="icon" type="image/png" href="login/images/icons/civicon.png" />
+  </head>
+
+  <body>
+    <div class="header-container">
+      <div class="header-left">CIVICALL</div>
+      <div class="header-right">
+        <a href="#" class="back-button" onclick="goBack()">Back</a>
+      </div>
+    </div>
+    
+    
+    </div>
+
+    <div class="reset-container">
+      <h1>Reset your password</h1>
+      <hr />
+      <p>
+        Please insert your Email Address to get an email to reset your
+        password
+      </p>
+    <!-- Inside the reset-container div -->
+<form id="resetForm">
+  <div class="reset-method">
+    <input type="text" id="emailInput" placeholder="Enter your Email" />
+    <button class="proceed-button" id="buttonReset">Proceed</button>
+  </div>
+</form>
+    </div>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+    
+   <script type="module" src="js/forgotPass.js"></script>
+  </body>
+</html>
