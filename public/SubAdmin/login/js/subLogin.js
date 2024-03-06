@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
-import firebaseConfig from "/../js/firebaseConfig.js";
+import firebaseConfig from "/public/js/firebaseConfig.js";
 
 // Initialize Firebase app
 const app = initializeApp(firebaseConfig);
