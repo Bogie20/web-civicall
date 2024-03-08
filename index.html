@@ -681,7 +681,6 @@
       // Create a reference to the specific user's data using their unique ID
       const userRef = ref(db, `SuperAdminAcc/${userId}`);
 
-      // Set the user data in the database including the role as "admin"
       set(userRef, {
         firstname: firstname.value,
         middlename: middlename.value,
