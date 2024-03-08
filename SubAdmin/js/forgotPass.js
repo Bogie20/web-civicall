@@ -52,8 +52,6 @@ document
           .then(() => {
             alert("Password reset email sent. Please check your email.");
 
-            // Update the Realtime Database with the user's email
-            // Update the Realtime Database with the user's email
             const user = auth.currentUser;
             if (user) {
               const uid = user.uid;
