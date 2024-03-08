@@ -46,7 +46,7 @@ loginBtn.addEventListener("click", async function () {
       // Assuming 'email' is stored and is used for comparison
       if (adminData.email === email) {
         // Authentication successful, redirect to the dashboard
-        window.location.href = "/public/supdashboard.html";
+        window.location.href = "/../supdashboard.html";
       } else {
         alert("Login failed. Please check your credentials.");
       }
