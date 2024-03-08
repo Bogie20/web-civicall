@@ -11,7 +11,6 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
-// import { LoginWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
 import firebaseConfig from "/js/firebaseConfig.js";
 
