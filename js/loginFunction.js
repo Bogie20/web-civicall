@@ -13,17 +13,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 // import { LoginWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAMl8Eq_Clwyaw4w4D_TTrmOan9osHooMY",
-  authDomain: "civicall-app-a54d1.firebaseapp.com",
-  databaseURL:
-    "https://civicall-app-a54d1-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "civicall-app-a54d1",
-  storageBucket: "civicall-app-a54d1.appspot.com",
-  messagingSenderId: "909514632764",
-  appId: "1:909514632764:web:bc969936e31a4fba9e9d39",
-  measurementId: "G-0BVYE5XJGV",
-};
+import firebaseConfig from "/js/firebaseConfig.js";
+
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
@@ -55,7 +46,7 @@ loginBtn.addEventListener("click", async function () {
       // Assuming 'email' is stored and is used for comparison
       if (adminData.email === email) {
         // Authentication successful, redirect to the dashboard
-        window.location.href = "/../supdashboard.html";
+        window.location.href = "supdashboard.html";
       } else {
         alert("Login failed. Please check your credentials.");
       }
