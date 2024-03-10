@@ -509,43 +509,45 @@
 
       const loginBtn = document.getElementById("btnlogin");
 
-      loginBtn.addEventListener("click", async function () {
-        const email = document.getElementById("usernamefield").value;
-        const password = document.getElementById("passwordfield").value;
+ loginBtn.addEventListener("click", async function () {
+    const email = document.getElementById("usernamefield").value.toLowerCase(); // Convert email to lowercase
 
-        try {
-          // Sign in the user using Firebase Authentication
-          const adminCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-          const admin = adminCredential.user;
+    const password = document.getElementById("passwordfield").value;
 
-          // Retrieve the reference to the specific node using the user's UID
-          const supAdminRef = ref(db, `SuperAdminAcc/${admin.uid}`);
+    try {
+      // Sign in the user using Firebase Authentication
+      const adminCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const admin = adminCredential.user;
 
-          // Retrieve the data from the SubAdminAcc node with the provided UID
-          const snapshot = await get(supAdminRef);
+      // Retrieve the reference to the specific node using the user's UID
+      const supAdminRef = ref(db, `SuperAdminAcc/${admin.uid}`);
 
-          // Check if the snapshot exists and compare the passwords
-          if (snapshot.exists()) {
-            const adminData = snapshot.val();
-            // Assuming 'email' is stored and is used for comparison
-            if (adminData.email === email) {
-              // Authentication successful, redirect to the dashboard
-              window.location.href = "supdashboard.html";
-            } else {
-              alert("Login failed. Please check your credentials.");
-            }
-          } else {
-            alert("Admin Account not found.");
-          }
-        } catch (error) {
-          console.error("Firebase authentication error:", error);
-          alert("Login failed. Please check your credentials or try again later.");
+      // Retrieve the data from the SubAdminAcc node with the provided UID
+      const snapshot = await get(supAdminRef);
+
+      // Check if the snapshot exists and compare the passwords
+      if (snapshot.exists()) {
+        const adminData = snapshot.val();
+        // Assuming 'email' is stored and is used for comparison
+        if (adminData.email.toLowerCase() === email) { // Convert stored email to lowercase for comparison
+          // Authentication successful, redirect to the dashboard
+          window.location.href = "supdashboard.html";
+        } else {
+          alert("Login failed. Please check your credentials.");
         }
-      });
+      } else {
+        alert("Admin Account not found.");
+      }
+    } catch (error) {
+      console.error("Firebase authentication error:", error);
+      alert("Login failed. Please check your credentials or try again later.");
+    }
+  });
+
       document
         .getElementById("usernamefield")
         .addEventListener("keydown", handleEnterKey);
