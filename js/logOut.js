@@ -43,6 +43,22 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
+// Function to handle popstate event
+const handlePopState = () => {
+  // If the current location is index.html, push state again to prevent navigation
+  if (window.location.pathname === '/index.html') {
+    window.history.pushState(null, '', '/index.html');
+  }
+};
+
+// Add event listener for popstate event
+window.addEventListener('popstate', handlePopState);
+
+// Function to remove popstate event listener
+const removePopstateListener = () => {
+  window.removeEventListener('popstate', handlePopState);
+};
+
 document.getElementById("logOut").addEventListener("click", () => {
   // Sign out the current user
   auth
@@ -50,6 +66,10 @@ document.getElementById("logOut").addEventListener("click", () => {
     .then(() => {
       console.log("User logged out");
 
+      // Remove popstate event listener
+      removePopstateListener();
+
+      // Redirect to index.html
       window.location.href = "index.html";
 
       // Remove previous page from history
