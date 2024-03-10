@@ -29,7 +29,7 @@ document
 
     if (email) {
       // Reference to the SuperAdminAcc node
-      const superAdminAccRef = ref(db, "SuperAdminAcc");
+      const superAdminAccRef = ref(db, "SubAdminAcc");
 
       // Check if the email exists in the SuperAdminAcc node
       const emailExists = await new Promise((resolve) => {
@@ -52,12 +52,10 @@ document
           .then(() => {
             alert("Password reset email sent. Please check your email.");
 
-            // Update the Realtime Database with the user's email
-            // Update the Realtime Database with the user's email
             const user = auth.currentUser;
             if (user) {
               const uid = user.uid;
-              const dbRef = ref(db, `SuperAdminAcc/${uid}`);
+              const dbRef = ref(db, `SubAdminAcc/${uid}`);
               update(dbRef, { email });
             } else {
               console.error("User not found.");

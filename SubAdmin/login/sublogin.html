@@ -73,7 +73,10 @@
             <span class="login100-form-title-1"> Sub Admin's Portal </span>
           </div>
           <div>
-            <a href="/../index.html" class="txt2"> Super Admin Login </a>
+            <div>
+              <a href="/web-civicall/index.html" class="txt2"> Super Admin Login </a>
+            </div>
+
           </div>
           <form class="login100-form validate-form">
             <div
@@ -107,7 +110,7 @@
 
             <div class="flex-sb-m w-full p-b-30">
               <div>
-                <a href="/SubAdmin/forgot.html" class="txt1">
+                <a href="/web-civicall/SubAdmin/forgot.html" class="txt1">
                   Forgot Password?
                 </a>
               </div>
@@ -142,6 +145,89 @@
         }
       });
     </script>
-    <script type="module" src="js/subLogin.js"></script>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js";
+        import {
+          getDatabase,
+          ref,
+          get,
+        } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-database.js";
+        import {
+          getAuth,
+          signInWithEmailAndPassword,
+        } from "https://www.gstatic.com/firebasejs/9.6.0/firebase-auth.js";
+
+  const firebaseConfig = {
+      apiKey: "AIzaSyAMl8Eq_Clwyaw4w4D_TTrmOan9osHooMY",
+      authDomain: "civicall-app-a54d1.firebaseapp.com",
+      databaseURL:
+        "https://civicall-app-a54d1-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "civicall-app-a54d1",
+      storageBucket: "civicall-app-a54d1.appspot.com",
+      messagingSenderId: "909514632764",
+      appId: "1:909514632764:web:bc969936e31a4fba9e9d39",
+      measurementId: "G-0BVYE5XJGV",
+    };
+
+        // Initialize Firebase app
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // Select the login button element
+        const loginBtn = document.getElementById("btnlogin");
+
+        loginBtn.addEventListener("click", async function () {
+          const email = document.getElementById("usernamefield").value.toLowerCase(); // Convert to lowercase
+          const password = document.getElementById("passwordfield").value;
+
+          try {
+            // Sign in the user using Firebase Authentication
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              email,
+              password
+            );
+            const user = userCredential.user;
+
+            // Retrieve the reference to the specific node using the user's UID
+            const subAdminRef = ref(db, `SubAdminAcc/${user.uid}`);
+
+            // Retrieve the data from the SubAdminAcc node with the provided UID
+            const snapshot = await get(subAdminRef);
+
+            // Check if the snapshot exists and compare the passwords
+            if (snapshot.exists()) {
+              const userData = snapshot.val();
+              // Convert stored email to lowercase for comparison
+              if (userData.email.toLowerCase() === email) {
+                window.location.href = "../subdashboard.html";
+              } else {
+                alert("Login failed. Please check your credentials.");
+              }
+            } else {
+              alert("Admin Account not found.");
+            }
+          } catch (error) {
+            console.error("Firebase authentication error:", error);
+            alert("Login failed. Please check your credentials or try again later.");
+          }
+        });
+        document
+          .getElementById("usernamefield")
+          .addEventListener("keydown", handleEnterKey);
+        document
+          .getElementById("passwordfield")
+          .addEventListener("keydown", handleEnterKey);
+
+        // Function to handle Enter key press
+        function handleEnterKey(event) {
+          if (event.key === "Enter") {
+            // Trigger the click event on the login button
+            loginBtn.click();
+          }
+        }
+
+    </script>
   </body>
 </html>
