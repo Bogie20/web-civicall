@@ -34,6 +34,14 @@ onAuthStateChanged(auth, (user) => {
 });
 
 function submitForm() {
+   const currentUsers = auth.currentUsers;
+  if (!currentUsers) {
+    // If user is not logged in, display alert and return
+alert("Please log in to continue. Only logged-in admin can submit posts.");
+
+    return;
+  }
+
   // Get data from the form fields
   const titleEvent = document.getElementById("titlepost").value;
   const category = document.getElementById("category").value;
