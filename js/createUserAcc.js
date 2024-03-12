@@ -181,7 +181,7 @@ function registerUser(email, password) {
               );
 
               // Redirect to login page
-              window.location.href = "login/suplogin.html";
+              window.location.href = "index.html";
             })
             .catch((error) => {
               // Handle errors in logout

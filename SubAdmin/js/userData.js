@@ -104,7 +104,7 @@ function RegisterUser(event) {
                   alert(
                     "User registered successfully. You need to login again for authentication purposes."
                   );
-                  window.location.href = "login/subLogin.html";
+                  window.location.href = "login/sublogin.html";
                 })
                 .catch((error) => {
                   console.error("Error logging out:", error);

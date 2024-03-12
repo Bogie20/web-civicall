@@ -162,7 +162,7 @@ function registerUser(email, password, currentUserCampus) {
               alert(
                 "User registered successfully. You need to login again for authentication purposes."
               );
-              window.location.href = "login/index.html";
+              window.location.href = "login/sublogin.html";
             })
             .catch((error) => {
               console.log("Error logging out:", error);
