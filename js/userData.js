@@ -124,7 +124,7 @@ function RegisterUser(event) {
           );
 
           // Redirect to login page
-          window.location.href = "login/suplogin.html";
+          window.location.href = "index.html";
         })
         .catch((error) => {
           // Handle errors in logout
@@ -234,79 +234,88 @@ const initializeDataTable = () => {
 const dataTable = initializeDataTable();
 
 const populateDataTable = () => {
-  onValue(UsersRef, (snapshot) => {
-    const usersData = snapshot.val();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is authenticated, populate the table
+      onValue(UsersRef, (snapshot) => {
+        const usersData = snapshot.val();
 
-    dataTable.clear();
+        dataTable.clear();
 
-    if (usersData) {
-      const currentTimestamp = generateTimestamp(); // Get the current timestamp
+        if (usersData) {
+          const currentTimestamp = generateTimestamp(); // Get the current timestamp
 
-      Object.keys(usersData).forEach((userId) => {
-        const user = usersData[userId];
+          Object.keys(usersData).forEach((userId) => {
+            const user = usersData[userId];
 
-        if (user.verificationStatus) {
-          // Check if user has verificationStatus set to true
-          const lastLoginTimestamp = new Date(user.lastLogin);
+            if (user.verificationStatus) {
+              // Check if user has verificationStatus set to true
+              const lastLoginTimestamp = new Date(user.lastLogin);
 
-          // Check if lastLogin is within the last year
-          const oneYearAgo = new Date();
-          oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+              // Check if lastLogin is within the last year
+              const oneYearAgo = new Date();
+              oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
 
-          if (lastLoginTimestamp > oneYearAgo) {
-            // User's lastLogin is within the last year
-            $("#example tbody").on("click", "button.view-button", function () {
-              const userId = dataTable
-                .row($(this).parents("tr"))
-                .data().userUID;
-              viewUserDetails(userId);
-            });
+              if (lastLoginTimestamp > oneYearAgo) {
+                // User's lastLogin is within the last year
+                $("#example tbody").on("click", "button.view-button", function () {
+                  const userId = dataTable
+                    .row($(this).parents("tr"))
+                    .data().userUID;
+                  viewUserDetails(userId);
+                });
 
-            // Replace empty or undefined values with "N/A"
-            const fullName = `${user.lastname || "N/A"}, ${
-              user.firstname || "N/A"
-            }, ${user.middlename || "N/A"}`;
-            const srcode = user.srcode || "N/A";
-            const email = user.email || "N/A";
-            const gender = user.gender || "N/A";
-            const yearAndSection = user.yearandSection || "N/A";
-            const campus = user.campus || "N/A";
-            const userType = user.userType || "N/A";
-            const nstp = user.nstp || "N/A";
+                // Replace empty or undefined values with "N/A"
+                const fullName = `${user.lastname || "N/A"}, ${
+                  user.firstname || "N/A"
+                }, ${user.middlename || "N/A"}`;
+                const srcode = user.srcode || "N/A";
+                const email = user.email || "N/A";
+                const gender = user.gender || "N/A";
+                const yearAndSection = user.yearandSection || "N/A";
+                const campus = user.campus || "N/A";
+                const userType = user.userType || "N/A";
+                const nstp = user.nstp || "N/A";
 
-            dataTable.row.add({
-              userUID: userId,
-              srcode: srcode,
-              fullname: fullName,
-              email: email,
-              gender: gender,
-              yearandSection: yearAndSection,
-              campus: campus,
-              userType: userType,
-              nstp: nstp,
-              Details:
-                '<button class="btn btn-danger view-button" data-toggle="modal" data-target="#exampleModalLong">View</button>',
-            });
-          }
+                dataTable.row.add({
+                  userUID: userId,
+                  srcode: srcode,
+                  fullname: fullName,
+                  email: email,
+                  gender: gender,
+                  yearandSection: yearAndSection,
+                  campus: campus,
+                  userType: userType,
+                  nstp: nstp,
+                  Details:
+                    '<button class="btn btn-danger view-button" data-toggle="modal" data-target="#exampleModalLong">View</button>',
+                });
+              }
+            }
+          });
+
+          dataTable.draw();
+        } else {
+          console.log("No data available in Users collection.");
+          dataTable.clear().draw();
         }
       });
 
-      dataTable.draw();
+      onChildRemoved(UsersRef, (removedSnapshot) => {
+        const removedUserId = removedSnapshot.key;
+
+        dataTable
+          .rows((idx, data) => data.userUID === removedUserId)
+          .remove()
+          .draw();
+      });
     } else {
-      console.log("No data available in Users collection.");
+      // User is not authenticated, clear the table
       dataTable.clear().draw();
     }
   });
-
-  onChildRemoved(UsersRef, (removedSnapshot) => {
-    const removedUserId = removedSnapshot.key;
-
-    dataTable
-      .rows((idx, data) => data.userUID === removedUserId)
-      .remove()
-      .draw();
-  });
 };
+
 let eventListenersAdded = false;
 let currentUserId;
 function viewUserDetails(userId) {
