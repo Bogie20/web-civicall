@@ -34,9 +34,17 @@ let submit = document.getElementById("createbtnacc"); // Update the submit butto
 submit.addEventListener("click", RegisterUser);
 function RegisterUser(event) {
   event.preventDefault();
+ const currentUser = auth.currentUser;
+  if (!currentUser) {
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return;
+  }
+
+  // Proceed with account creation logic
   const confirmed = window.confirm(
     "Are you sure you want to create this account?"
   );
+
 
   if (!confirmed) {
     // If the user cancels the confirmation, do nothing

@@ -35,9 +35,9 @@ onAuthStateChanged(auth, (user) => {
           currentUserUID = user.uid;
         } else {
           // If not a SuperAdminAcc, log out the user
-          console.log("User is not a SuperAdminAcc. Logging out...");
+          console.log("User is not a SuperAdminAcc");
           currentUserUID = null;
-          auth.signOut();
+    
         }
       })
       .catch((error) => {
@@ -61,6 +61,13 @@ submit.addEventListener("click", RegisterUser);
 
 function RegisterUser(event) {
   event.preventDefault();
+
+  // Check if the user is authenticated
+  if (!currentUserUID) {
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return;
+  }
+
   const confirmed = window.confirm(
     "Are you sure you want to create this account?"
   );

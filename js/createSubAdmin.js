@@ -52,6 +52,12 @@ document
   });
 function RegisterAdmin(event) {
   event.preventDefault();
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return;
+  }
+
   if (!areAllFieldsFilled()) {
     alert("Please fill out all the fields.");
     return;
