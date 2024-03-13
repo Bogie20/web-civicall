@@ -34,8 +34,9 @@ onAuthStateChanged(auth, (user) => {
 });
 
 function submitForm() {
-   const currentUsers = auth.currentUsers;
-  if (!currentUsers) {
+  // Check if user is logged in
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
     // If user is not logged in, display alert and return
 alert("Please log in to continue. Only logged-in admin can submit posts.");
 
@@ -62,13 +63,9 @@ alert("Please log in to continue. Only logged-in admin can submit posts.");
   const facilitatorsContactOrEmail =
     document.getElementById("facnamecon").value;
 
-  // Get the current user's UID
-  const currentUser = auth.currentUser;
-  const uploadersUID = currentUser ? currentUser.uid : "";
-
   // Prepare data for upload
   const eventData = {
-    uploadersUID: uploadersUID,
+    uploadersUID: currentUser.uid,
     titleEvent: titleEvent,
     category: category,
     startDate: startDate,
