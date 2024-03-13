@@ -22,7 +22,7 @@ const auth = getAuth(app);
 
 let currentUserUID;
 onAuthStateChanged(auth, (user) => {
-  // You can handle authentication state changes here
+
   if (user) {
     // Check if the authenticated user is a SuperAdminAcc
     const superAdminRef = ref(db, `SuperAdminAcc/${user.uid}`);
@@ -33,9 +33,8 @@ onAuthStateChanged(auth, (user) => {
           currentUserUID = user.uid;
         } else {
           // If not a SuperAdminAcc, log out the user
-          console.log("User is not a SuperAdminAcc. Logging out...");
+          console.log("User is not a SuperAdminAcc");
           currentUserUID = null;
-          auth.signOut();
         }
       })
       .catch((error) => {
@@ -135,6 +134,12 @@ document.getElementById("subac").addEventListener("click", function (event) {
 });
 
 function registerUsers() {
+  if (!currentUserUID) {
+    // Check if user is not logged in
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return;
+  }
+
   var inputRow = document.getElementById("inputrow");
   var emailInputs = inputRow.getElementsByClassName("emailInput");
 
@@ -181,7 +186,7 @@ function registerUser(email, password) {
               );
 
               // Redirect to login page
-              window.location.href = "login/suplogin.html";
+              window.location.href = "index.html";
             })
             .catch((error) => {
               // Handle errors in logout

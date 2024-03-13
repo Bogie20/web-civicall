@@ -89,6 +89,12 @@ document.getElementById("addrow").addEventListener("click", function (event) {
 document.getElementById("subac").addEventListener("click", function (event) {
   event.preventDefault();
 
+  // Check if the user is logged in
+  if (!auth.currentUser) {
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return; // Stop further processing
+  }
+
   // Check if at least one email is provided
   var inputRow = document.getElementById("inputrow");
   var emailInputs = inputRow.getElementsByClassName("emailInput");
@@ -103,21 +109,18 @@ document.getElementById("subac").addEventListener("click", function (event) {
 
   // Confirmation alert
   if (confirm("Are you sure you want to register these users?")) {
-    // Get the current user's campus from onAuthStateChanged
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const userRef = ref(db, `SubAdminAcc/${user.uid}`);
-        onValue(userRef, (snapshot) => {
-          const currentUserData = snapshot.val();
-          if (currentUserData) {
-            const currentUserCampus = currentUserData.campus;
-            registerUsers(currentUserCampus); // Pass currentUserCampus to registerUsers
-          }
-        });
+    const user = auth.currentUser;
+    const userRef = ref(db, `SubAdminAcc/${user.uid}`);
+    onValue(userRef, (snapshot) => {
+      const currentUserData = snapshot.val();
+      if (currentUserData) {
+        const currentUserCampus = currentUserData.campus;
+        registerUsers(currentUserCampus);
       }
     });
   }
 });
+
 
 function registerUsers(currentUserCampus) {
   var inputRow = document.getElementById("inputrow");
@@ -162,7 +165,7 @@ function registerUser(email, password, currentUserCampus) {
               alert(
                 "User registered successfully. You need to login again for authentication purposes."
               );
-              window.location.href = "login/index.html";
+              window.location.href = "login/sublogin.html";
             })
             .catch((error) => {
               console.log("Error logging out:", error);

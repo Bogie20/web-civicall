@@ -12,6 +12,7 @@ import {
 import {
   getAuth,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import firebaseConfig from "./firebaseConfig.js";
 
@@ -19,6 +20,14 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
 
+onAuthStateChanged(auth, (user) => {
+  // You can handle authentication state changes here
+  if (user) {
+    console.log("User is logged in:", user);
+  } else {
+    console.log("User is logged out");
+  }
+});
 let firstname = document.getElementById("firstname");
 let middlename = document.getElementById("middlename");
 let lastname = document.getElementById("lastname");
@@ -43,6 +52,12 @@ document
   });
 function RegisterAdmin(event) {
   event.preventDefault();
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    alert("Please log in to continue. Only logged-in admin can create account.");
+    return;
+  }
+
   if (!areAllFieldsFilled()) {
     alert("Please fill out all the fields.");
     return;
@@ -113,7 +128,7 @@ function RegisterAdmin(event) {
           );
 
           // Redirect to login page
-          window.location.href = "login/suplogin.html";
+          window.location.href = "index.html";
         })
         .catch((error) => {
           // Handle errors in logout
@@ -205,44 +220,53 @@ const initializeDataTable = () => {
 const dataTable = initializeDataTable();
 
 const populateDataTable = () => {
-  onValue(UsersRef, (snapshot) => {
-    const usersData = snapshot.val();
-
-    dataTable.clear();
-
-    if (usersData) {
-      Object.keys(usersData).forEach((userId) => {
-        const user = usersData[userId];
-        $("#example tbody").on("click", "button.view-button", function () {
-          const userId = dataTable.row($(this).parents("tr")).data().userUID;
-          viewUserDetails(userId);
-        });
-        dataTable.row.add({
-          userUID: userId,
-          email: user.email,
-          fullname: `${user.lastname}, ${user.firstname}, ${user.middlename}`,
-          campus: user.campus,
-          Details:
-            '<button class="btn btn-danger view-button" data-toggle="modal" data-target="#exampleModalLong">View</button>',
-        });
+  onAuthStateChanged(auth, (user) => {
+    // Check if the user is authenticated
+    if (user) {
+      onValue(UsersRef, (snapshot) => {
+        const usersData = snapshot.val();
+  
+        dataTable.clear();
+  
+        if (usersData) {
+          Object.keys(usersData).forEach((userId) => {
+            const user = usersData[userId];
+            $("#example tbody").on("click", "button.view-button", function () {
+              const userId = dataTable.row($(this).parents("tr")).data().userUID;
+              viewUserDetails(userId);
+            });
+            dataTable.row.add({
+              userUID: userId,
+              email: user.email,
+              fullname: `${user.lastname}, ${user.firstname}, ${user.middlename}`,
+              campus: user.campus,
+              Details:
+                '<button class="btn btn-danger view-button" data-toggle="modal" data-target="#exampleModalLong">View</button>',
+            });
+          });
+  
+          dataTable.draw();
+        } else {
+          console.log("No data available in Users collection.");
+          dataTable.clear().draw();
+        }
       });
-
-      dataTable.draw();
+  
+      onChildRemoved(UsersRef, (removedSnapshot) => {
+        const removedUserId = removedSnapshot.key;
+  
+        dataTable
+          .rows((idx, data) => data.userUID === removedUserId)
+          .remove()
+          .draw();
+      });
     } else {
-      console.log("No data available in Users collection.");
+      // User is not authenticated, clear the table
       dataTable.clear().draw();
     }
   });
-
-  onChildRemoved(UsersRef, (removedSnapshot) => {
-    const removedUserId = removedSnapshot.key;
-
-    dataTable
-      .rows((idx, data) => data.userUID === removedUserId)
-      .remove()
-      .draw();
-  });
 };
+
 let eventListenersAdded = false;
 let currentUserId;
 function viewUserDetails(userId) {

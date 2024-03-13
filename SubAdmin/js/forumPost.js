@@ -145,6 +145,11 @@ onAuthStateChanged(auth, (user) => {
 
 // Function to post content to the forum
 function postToForum() {
+    const currentUsers = auth.currentUsers;
+  if (!currentUsers) {
+    alert("Please log in to continue. Only logged-in users can submit posts.");
+    return;
+  }
   // Confirm with the user before posting
   if (!confirm("Are you sure to post this in Forum?")) {
     return; // If user cancels, exit the function

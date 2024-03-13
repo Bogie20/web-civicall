@@ -5,12 +5,23 @@ import {
   get,
   onValue,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
-
+import {
+  getAuth,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import firebaseConfig from "./firebaseConfig.js";
-
+const auth = getAuth(app);
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+onAuthStateChanged(auth, (user) => {
+  // You can handle authentication state changes here
+  if (user) {
+    console.log("User is logged in:", user);
+  } else {
+    console.log("User is logged out");
+  }
+});
 // Reference to the Users node
 const usersRef = ref(db, "Users");
 
