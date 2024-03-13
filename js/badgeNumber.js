@@ -10,10 +10,15 @@ import {
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import firebaseConfig from "./firebaseConfig.js";
-const auth = getAuth(app);
+
+// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
+
+// Get auth and database instances
+const auth = getAuth(app);
 const db = getDatabase(app);
 
+// Define onAuthStateChanged callback
 onAuthStateChanged(auth, (user) => {
   // You can handle authentication state changes here
   if (user) {
@@ -22,12 +27,11 @@ onAuthStateChanged(auth, (user) => {
     console.log("User is logged out");
   }
 });
+
 // Reference to the Users node
 const usersRef = ref(db, "Users");
 
-const notificationBadgeArchive = document.getElementById(
-  "notificationBadgeArchive"
-);
+// Function to format large numbers
 function formatNumber(num) {
   if (num >= 1000000) {
     return (num / 1000000).toFixed(1) + "M";
@@ -37,6 +41,8 @@ function formatNumber(num) {
     return num.toString();
   }
 }
+
+// Function to count archived users
 function countArchivedUsers(snapshot) {
   let archivedUsersCount = 0;
 
@@ -57,12 +63,18 @@ function countArchivedUsers(snapshot) {
     }
   });
 
+  // Update notification badge for archived users
   notificationBadgeArchive.textContent = formatNumber(archivedUsersCount);
 }
+
+// Listen for changes in the Users node to count archived users
 onValue(usersRef, countArchivedUsers);
+
+// DOM elements
+const notificationBadgeArchive = document.getElementById("notificationBadgeArchive");
 const notificationBadge = document.getElementById("notificationBadge");
 
-// Listen for changes in the Users node
+// Listen for changes in the Users node to count users with verification status false
 onValue(usersRef, (snapshot) => {
   // Reset badge count
   let badgeCount = 0;
@@ -82,6 +94,7 @@ onValue(usersRef, (snapshot) => {
           badgeCount++;
         }
 
+        // Update notification badge for unverified users
         notificationBadge.textContent = formatNumber(badgeCount);
       });
     }
