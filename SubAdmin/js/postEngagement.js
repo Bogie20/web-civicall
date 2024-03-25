@@ -38,149 +38,168 @@ function submitForm() {
   const currentUser = auth.currentUser;
   if (!currentUser) {
     // If user is not logged in, display alert and return
-alert("Please log in to continue. Only logged-in admin can submit posts.");
-
+    alert("Please log in to continue. Only logged-in admin can submit posts.");
     return;
   }
 
-  // Get data from the form fields
-  const titleEvent = document.getElementById("titlepost").value;
-  const category = document.getElementById("category").value;
-  const startDate = formatDate(document.getElementById("startdate").value);
-  const endDate = formatDate(document.getElementById("enddate").value);
-  const introduction = document.getElementById("introductionPost").value;
-  const objective = document.getElementById("objectivePost").value;
-  const instruction = document.getElementById("instructionPost").value;
-  const location = document.getElementById("Locationpost").value;
-  const recipient = document.getElementById("recipient").value;
-  const paymentMethod = document.getElementById("paymentMethod").value;
-  const targetCampus = document.getElementById("campusTarget").value;
-  const activePoints = parseInt(document.getElementById("actpts").value);
-  const targetParticipant = parseInt(
-    document.getElementById("targparty").value
-  );
-  const facilitatorsName = document.getElementById("facname").value;
-  const facilitatorsContactOrEmail =
-    document.getElementById("facnamecon").value;
+  // Check if user is a subadmin
+  const userUID = currentUser.uid;
+  const userRef = ref(db, "SubAdminAcc/" + userUID);
+  get(userRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        const userRole = userData.role;
+        if (userRole === "subadmin") {
+          // If user is a subadmin, proceed with form submission
 
-  // Prepare data for upload
-  const eventData = {
-    uploadersUID: currentUser.uid,
-    titleEvent: titleEvent,
-    category: category,
-    startDate: startDate,
-    endDate: endDate,
-    location: location,
-    intro: introduction,
-    objective: objective,
-    instruction: instruction,
-    fundcollected: 0,
-    paymentMethod: paymentMethod,
-    paymentRecipient: recipient,
-    verificationStatus: true,
-    approveTimeStamp: generateTimestamp(),
-    campus: targetCampus,
-    targetparty: targetParticipant,
-    activepoints: activePoints,
-    facilitatorsName: facilitatorsName,
-    facilitatorsContactorEmail: facilitatorsContactOrEmail,
-  };
+          // Get data from the form fields
+          const titleEvent = document.getElementById("titlepost").value;
+          const category = document.getElementById("category").value;
+          const startDate = formatDate(document.getElementById("startdate").value);
+          const endDate = formatDate(document.getElementById("enddate").value);
+          const introduction = document.getElementById("introductionPost").value;
+          const objective = document.getElementById("objectivePost").value;
+          const instruction = document.getElementById("instructionPost").value;
+          const location = document.getElementById("Locationpost").value;
+          const recipient = document.getElementById("recipient").value;
+          const paymentMethod = document.getElementById("paymentMethod").value;
+          const targetCampus = document.getElementById("campusTarget").value;
+          const activePoints = parseInt(document.getElementById("actpts").value);
+          const targetParticipant = parseInt(document.getElementById("targparty").value);
+          const facilitatorsName = document.getElementById("facname").value;
+          const facilitatorsContactOrEmail = document.getElementById("facnamecon").value;
 
-  // Get the file input element
-  const fileInput = document.getElementById("filePost");
+          // Prepare data for upload
+          const eventData = {
+            uploadersUID: currentUser.uid,
+            titleEvent: titleEvent,
+            category: category,
+            startDate: startDate,
+            endDate: endDate,
+            location: location,
+            intro: introduction,
+            objective: objective,
+            instruction: instruction,
+            fundcollected: 0,
+            paymentMethod: paymentMethod,
+            paymentRecipient: recipient,
+            verificationStatus: true,
+            approveTimeStamp: generateTimestamp(),
+            campus: targetCampus,
+            targetparty: targetParticipant,
+            activepoints: activePoints,
+            facilitatorsName: facilitatorsName,
+            facilitatorsContactorEmail: facilitatorsContactOrEmail,
+          };
 
-  if (!validateForm()) {
-    // Display alert if validation fails
-    alert("Please fill in all required fields.");
-    return;
-  }
+          // Get the file input element
+          const fileInput = document.getElementById("filePost");
 
-  function formatDate(dateTime) {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "numeric",
-      minute: "numeric",
-      hour12: true,
-    };
-    return new Date(dateTime)
-      .toLocaleString("en-US", options)
-      .replace(/,/g, "");
-  }
-  // Check if a file is selected
-  if (fileInput.files && fileInput.files[0]) {
-    const file = fileInput.files[0];
-    const timestamp = new Date().getTime();
-    const storagePath = `Poster Civic Images/${timestamp}_${file.name}`; // Using timestamp as part of the file name
-    const storageRefPath = storageRef(storage, storagePath);
+          if (!validateForm()) {
+            // Display alert if validation fails
+            alert("Please fill in all required fields.");
+            return;
+          }
 
-    // Upload file to Firebase Storage
-    uploadBytes(storageRefPath, file)
-      .then((snapshot) => {
-        console.log("File uploaded successfully");
-        return getDownloadURL(snapshot.ref);
-      })
-      .then((downloadURL) => {
-        // Add the downloadURL to the "image" property in eventData
-        eventData.image = downloadURL;
+          function formatDate(dateTime) {
+            const options = {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+              hour12: true,
+            };
+            return new Date(dateTime)
+              .toLocaleString("en-US", options)
+              .replace(/,/g, "");
+          }
+          // Check if a file is selected
+          if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            const timestamp = new Date().getTime();
+            const storagePath = `Poster Civic Images/${timestamp}_${file.name}`; // Using timestamp as part of the file name
+            const storageRefPath = storageRef(storage, storagePath);
 
-        // Upload data to the Firebase Realtime Database
-        const newEventRef = push(ref(db, "Upload_Engagement"));
-        set(newEventRef, eventData)
-          .then(() => {
-            console.log("Event data uploaded successfully");
-            alert("Event data uploaded successfully");
+            // Upload file to Firebase Storage
+            uploadBytes(storageRefPath, file)
+              .then((snapshot) => {
+                console.log("File uploaded successfully");
+                return getDownloadURL(snapshot.ref);
+              })
+              .then((downloadURL) => {
+                // Add the downloadURL to the "image" property in eventData
+                eventData.image = downloadURL;
 
-            document.getElementById("campusTarget").value = "";
-            document.getElementById("imagepost").setAttribute("hidden", "true");
+                // Upload data to the Firebase Realtime Database
+                const newEventRef = push(ref(db, "Upload_Engagement"));
+                set(newEventRef, eventData)
+                  .then(() => {
+                    console.log("Event data uploaded successfully");
+                    alert("Event data uploaded successfully");
 
-            // Hide payment-related elements
-            const paymentLabel = document.getElementById("paymentLabel");
-            const paymentMethod = document.getElementById("paymentMethod");
-            const recipientLabel = document.getElementById("recipientLabel");
-            const recipient = document.getElementById("recipient");
+                    document.getElementById("campusTarget").value = "";
+                    document.getElementById("imagepost").setAttribute("hidden", "true");
 
-            if (paymentLabel && paymentMethod && recipientLabel && recipient) {
-              paymentLabel.style.display = "none";
-              paymentMethod.style.display = "none";
-              recipientLabel.style.display = "none";
-              recipient.style.display = "none";
-            }
+                    // Hide payment-related elements
+                    const paymentLabel = document.getElementById("paymentLabel");
+                    const paymentMethod = document.getElementById("paymentMethod");
+                    const recipientLabel = document.getElementById("recipientLabel");
+                    const recipient = document.getElementById("recipient");
 
-            clearFormFields();
-            clearCheckBoxes();
-            // Dismiss the modal
-            document.getElementById("postModalpo").style.display = "none";
-          })
-          .catch((error) => {
-            console.error("Error uploading event data:", error);
-            alert("Error uploading event data. Please try again.");
-          });
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-        alert("Error uploading file. Please try again.");
-      });
-  } else {
-    const newEventRef = push(ref(db, "Upload_Engagement"));
-    set(newEventRef, eventData)
-      .then(() => {
-        console.log("Event data uploaded successfully");
-        alert("Event data uploaded successfully");
+                    if (paymentLabel && paymentMethod && recipientLabel && recipient) {
+                      paymentLabel.style.display = "none";
+                      paymentMethod.style.display = "none";
+                      recipientLabel.style.display = "none";
+                      recipient.style.display = "none";
+                    }
 
-        clearCheckBoxes();
-        clearFormFields();
+                    clearFormFields();
+                    clearCheckBoxes();
+                    // Dismiss the modal
+                    document.getElementById("postModalpo").style.display = "none";
+                  })
+                  .catch((error) => {
+                    console.error("Error uploading event data:", error);
+                    alert("Error uploading event data. Please try again.");
+                  });
+              })
+              .catch((error) => {
+                console.error("Error uploading file:", error);
+                alert("Error uploading file. Please try again.");
+              });
+          } else {
+            const newEventRef = push(ref(db, "Upload_Engagement"));
+            set(newEventRef, eventData)
+              .then(() => {
+                console.log("Event data uploaded successfully");
+                alert("Event data uploaded successfully");
 
-        // Dismiss the modal
-        document.getElementById("postModalpo").style.display = "none";
-      })
-      .catch((error) => {
-        console.error("Error uploading event data:", error);
-        alert("Error uploading event data. Please try again.");
-      });
-  }
+                clearCheckBoxes();
+                clearFormFields();
+
+                // Dismiss the modal
+                document.getElementById("postModalpo").style.display = "none";
+              })
+              .catch((error) => {
+                console.error("Error uploading event data:", error);
+                alert("Error uploading event data. Please try again.");
+              });
+          }
+        } else {
+          // If user is not a subadmin, display alert and return
+          alert("Only logged-in subadmin can submit posts.");
+        }
+      } else {
+        console.error("User data not found.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching user data:", error);
+    });
 }
+
 document.addEventListener("DOMContentLoaded", function () {
   const imagePreview = document.getElementById("imagepost"); // Declare imagePreview here
 

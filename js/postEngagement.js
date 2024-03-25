@@ -37,7 +37,7 @@ function submitForm() {
   const currentUser = auth.currentUser;
   if (!currentUser) {
     // If user is not logged in, display alert and return
-alert("Please log in to continue. Only logged-in admin can submit posts.");
+    alert("Please log in to continue. Only logged-in admin can submit posts.");
 
     return;
   }

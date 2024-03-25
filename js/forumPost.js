@@ -124,53 +124,69 @@ function postToForum() {
     alert("Please log in to continue. Only logged-in users can submit posts.");
     return;
   }
-  // Confirm with the user before posting
-  if (!confirm("Are you sure to post this in Forum?")) {
-    return; // If user cancels, exit the function
-  }
 
-  // Get input values
-  const campus = document.getElementById("campusTarget").value;
-  const category = document.getElementById("categoryFilter").value;
-  const forumText = document.getElementById("forumText").value;
-  const file = fileInput.files[0];
+  // Check if the user is a superadmin
+  const currentUserUID = currentUser.uid;
+  const userRef = databaseRef(db, `SuperAdminAcc/${currentUserUID}`);
+  get(userRef).then((snapshot) => {
+    const userData = snapshot.val();
+    if (!userData || userData.role !== "superadmin") {
+      alert("Only superadmins can submit posts.");
+      return;
+    }
 
-  // Validate inputs
-  if (!campus || !category || !forumText) {
-    alert("Please fill in all fields.");
-    return;
-  }
+    // Confirm with the user before posting
+    if (!confirm("Are you sure to post this in Forum?")) {
+      return; // If user cancels, exit the function
+    }
 
-  // Upload image to storage if a file is provided
-  let postImage = ""; // Initialize postImage variable
-  if (file) {
-    const fileRef = storageRef(
-      getStorage(app),
-      "Forum_Post_Images/" + Date.now() + "_forumImage"
-    );
-    uploadBytes(fileRef, file)
-      .then((snapshot) => {
-        // Get download URL of the uploaded image
-        getDownloadURL(snapshot.ref)
-          .then((downloadURL) => {
-            postImage = downloadURL; // Set postImage URL
-            // Call function to save post data to the database
-            savePostData(campus, category, forumText, postImage);
-          })
-          .catch((error) => {
-            console.error("Error getting download URL: ", error);
-            alert("Error uploading image. Please try again.");
-          });
-      })
-      .catch((error) => {
-        console.error("Error uploading image: ", error);
-        alert("Error uploading image. Please try again.");
-      });
-  } else {
-    // Call function to save post data to the database without an image
-    savePostData(campus, category, forumText, postImage);
-  }
+    // Get input values
+    const campus = document.getElementById("campusTarget").value;
+    const category = document.getElementById("categoryFilter").value;
+    const forumText = document.getElementById("forumText").value;
+    const file = fileInput.files[0];
+
+    // Validate inputs
+    if (!campus || !category || !forumText) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Upload image to storage if a file is provided
+    let postImage = ""; // Initialize postImage variable
+    if (file) {
+      const fileRef = storageRef(
+        getStorage(app),
+        "Forum_Post_Images/" + Date.now() + "_forumImage"
+      );
+      uploadBytes(fileRef, file)
+        .then((snapshot) => {
+          // Get download URL of the uploaded image
+          getDownloadURL(snapshot.ref)
+            .then((downloadURL) => {
+              postImage = downloadURL; // Set postImage URL
+              // Call function to save post data to the database
+              savePostData(campus, category, forumText, postImage);
+            })
+            .catch((error) => {
+              console.error("Error getting download URL: ", error);
+              alert("Error uploading image. Please try again.");
+            });
+        })
+        .catch((error) => {
+          console.error("Error uploading image: ", error);
+          alert("Error uploading image. Please try again.");
+        });
+    } else {
+      // Call function to save post data to the database without an image
+      savePostData(campus, category, forumText, postImage);
+    }
+  }).catch((error) => {
+    console.error("Error checking user role: ", error);
+    alert("Error checking user role. Please try again.");
+  });
 }
+
 
 // Function to save post data to the database
 function savePostData(campus, category, forumText, postImage) {
