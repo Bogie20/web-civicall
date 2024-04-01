@@ -9,6 +9,7 @@ import {
   getDatabase,
   ref as databaseRef,
   push,
+  get,
   set,
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
 import {
@@ -75,6 +76,28 @@ fileInput.addEventListener("change", function () {
 // Event listener for when the campusTarget input is clicked
 campusTarget.addEventListener("click", function () {
   modal.style.display = "block";
+
+  // Retrieve current user's information
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    const currentUserUID = currentUser.uid;
+    const userRef = databaseRef(db, "SuperAdminAcc/" + currentUserUID);
+    // Retrieve user's information from the database
+    get(userRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const userData = snapshot.val();
+        const userCampus = userData.campus;
+
+        // Iterate through checkboxes to find and check the checkbox corresponding to the user's campus
+        checkboxes.forEach((checkbox) => {
+          if (checkbox.value === userCampus) {
+            checkbox.checked = true;
+            checkbox.disabled = true; // Disable the checkbox
+          }
+        });
+      }
+    });
+  }
 });
 
 // Event listener for when the Ok button is clicked
@@ -99,7 +122,10 @@ selectAllBtn.addEventListener("click", function () {
 // Event listener for when the Deselect All button is clicked
 deselectAllBtn.addEventListener("click", function () {
   checkboxes.forEach((checkbox) => {
-    checkbox.checked = false;
+    if (!checkbox.disabled) {
+      // Skip deselecting the current user's campus checkbox
+      checkbox.checked = false;
+    }
   });
 });
 
@@ -119,74 +145,84 @@ onAuthStateChanged(auth, (user) => {
 
 // Function to post content to the forum
 function postToForum() {
+  // Retrieve current user's information
   const currentUser = auth.currentUser;
   if (!currentUser) {
     alert("Please log in to continue. Only logged-in users can submit posts.");
     return;
   }
-
-  // Check if the user is a superadmin
+  
+  // Retrieve user's role from the database
   const currentUserUID = currentUser.uid;
-  const userRef = databaseRef(db, `SuperAdminAcc/${currentUserUID}`);
+  const userRef = databaseRef(db, "SuperAdminAcc/" + currentUserUID);
+  
+  // Retrieve user's role from the database
   get(userRef).then((snapshot) => {
-    const userData = snapshot.val();
-    if (!userData || userData.role !== "superadmin") {
-      alert("Only superadmins can submit posts.");
-      return;
-    }
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      const userRole = userData.role;
+      
+      // Check if the user's role is 'subadmin'
+      if (userRole !== "superadmin") {
+        alert("You do not have permission to post. Only subadmins can submit posts.");
+        return;
+      }
+      
+      // Proceed with posting if the user is a subadmin
+      // Confirm with the user before posting
+      if (!confirm("Are you sure to post this in Forum?")) {
+        return; // If user cancels, exit the function
+      }
 
-    // Confirm with the user before posting
-    if (!confirm("Are you sure to post this in Forum?")) {
-      return; // If user cancels, exit the function
-    }
+      // Get input values
+      const campus = document.getElementById("campusTarget").value;
+      const category = document.getElementById("categoryFilter").value;
+      const forumText = document.getElementById("forumText").value;
+      const file = fileInput.files[0];
 
-    // Get input values
-    const campus = document.getElementById("campusTarget").value;
-    const category = document.getElementById("categoryFilter").value;
-    const forumText = document.getElementById("forumText").value;
-    const file = fileInput.files[0];
+      // Validate inputs
+      if (!campus || !category || !forumText) {
+        alert("Please fill in all fields.");
+        return;
+      }
 
-    // Validate inputs
-    if (!campus || !category || !forumText) {
-      alert("Please fill in all fields.");
-      return;
-    }
-
-    // Upload image to storage if a file is provided
-    let postImage = ""; // Initialize postImage variable
-    if (file) {
-      const fileRef = storageRef(
-        getStorage(app),
-        "Forum_Post_Images/" + Date.now() + "_forumImage"
-      );
-      uploadBytes(fileRef, file)
-        .then((snapshot) => {
-          // Get download URL of the uploaded image
-          getDownloadURL(snapshot.ref)
-            .then((downloadURL) => {
-              postImage = downloadURL; // Set postImage URL
-              // Call function to save post data to the database
-              savePostData(campus, category, forumText, postImage);
-            })
-            .catch((error) => {
-              console.error("Error getting download URL: ", error);
-              alert("Error uploading image. Please try again.");
-            });
-        })
-        .catch((error) => {
-          console.error("Error uploading image: ", error);
-          alert("Error uploading image. Please try again.");
-        });
+      // Upload image to storage if a file is provided
+      let postImage = ""; // Initialize postImage variable
+      if (file) {
+        const fileRef = storageRef(
+          getStorage(app),
+          "Forum_Post_Images/" + Date.now() + "_forumImage"
+        );
+        uploadBytes(fileRef, file)
+          .then((snapshot) => {
+            // Get download URL of the uploaded image
+            getDownloadURL(snapshot.ref)
+              .then((downloadURL) => {
+                postImage = downloadURL; // Set postImage URL
+                // Call function to save post data to the database
+                savePostData(campus, category, forumText, postImage);
+              })
+              .catch((error) => {
+                console.error("Error getting download URL: ", error);
+                alert("Error uploading image. Please try again.");
+              });
+          })
+          .catch((error) => {
+            console.error("Error uploading image: ", error);
+            alert("Error uploading image. Please try again.");
+          });
+      } else {
+        // Call function to save post data to the database without an image
+        savePostData(campus, category, forumText, postImage);
+      }
     } else {
-      // Call function to save post data to the database without an image
-      savePostData(campus, category, forumText, postImage);
+      alert("User data not found. Please log in again.");
     }
   }).catch((error) => {
-    console.error("Error checking user role: ", error);
-    alert("Error checking user role. Please try again.");
+    console.error("Error retrieving user data: ", error);
+    alert("Error retrieving user data. Please try again.");
   });
 }
-
 
 // Function to save post data to the database
 function savePostData(campus, category, forumText, postImage) {
